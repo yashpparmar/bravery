@@ -1,0 +1,41 @@
+.login-container {
+  background-color: wheat;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .text-info {
+    h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      color: black;
+    }
+    p {
+      font-size: 1.5rem;
+      color: black;
+      a {
+        color: #ff6a00;
+      }
+    }
+  }
+
+  .login-card {
+    position: relative;
+    // margin: 30px auto;
+    // width: 400px;
+    height: auto;
+    min-height: auto;
+    cursor: pointer;
+    transition: 0.4s;
+    border: 0;
+    border-radius: 15px;
+    background: white;
+    --bs-card-cap-bg: rgb(0, 0, 0, 0);
+    &:hover {
+      transform: scale(1.04, 1.04);
+      box-sizing: border-box;
+      box-shadow: 1px 1px 61px -11px rgba(0, 0, 0, 0.15);
+    }
+  }
+}

@@ -1,16 +1,28 @@
 import React from 'react'
-import { RouterProvider } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { Provider } from 'react-redux'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import './App.css'
-import router from './routes/routes'
-import { Provider } from 'react-redux'
 import store from './redux/store/store'
+import routes from './routes/routes'
+import PrivatesRoutes from './routes/PrivatesRoutes'
 
 function App() {
+  console.log('routes', routes)
   return (
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <BrowserRouter>
+        <Routes>
+          {routes.map((route, i) => {
+            if (route.private) {
+              return <PrivatesRoutes key={i} {...route} />
+            } else {
+              return <Route key={i} {...route} />
+            }
+          })}
+        </Routes>
+      </BrowserRouter>
     </Provider>
   )
 }
