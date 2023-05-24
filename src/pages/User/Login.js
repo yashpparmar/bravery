@@ -1,24 +1,57 @@
 import React, { useState } from 'react'
-import { Alert, Button, Card, Col, Container, Form, Row } from 'react-bootstrap'
+import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap'
 
 import './Login.scss'
 import { Link } from 'react-router-dom'
+import { isEmail, isEmpty, isPassword } from '../../common/helpers/functions'
+import { login } from '../../services/authServices'
+import { connect } from 'react-redux'
+import AlertBox from '../../components/AlertBox'
 
-const Login = () => {
+const Login = ({ auth, login }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   })
-  const [showAlert, setShowAlert] = useState({
-    isError: false,
-    errorMsg: '',
+  const [alert, setAlert] = useState({
+    show: false,
+    variant: 'danger',
+    message: '',
   })
   const onChangeFormData = (e) => {
     const { id, value } = e.target
     setFormData((prev) => ({ ...prev, [id]: value }))
   }
-  const onSubmit = (e) => {
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault()
+    let error = ''
+    if (isEmpty(formData.email)) {
+      error = 'Email is required!'
+    } else if (!isEmail(formData.email)) {
+      error = 'Not valid email'
+    } else if (isEmpty(formData.password)) {
+      error = 'Password is required!'
+    } else if (!isPassword(password)) {
+      error = 'Password should be 8 characters minimum'
+    }
+
+    if (!isEmpty(error)) {
+      setAlert({ show: true, message: error, variant: 'danger' })
+    } else {
+      const result = await login(formData)
+      console.log('result', result)
+      if (result === 200) {
+        setFormData({
+          email: '',
+          password: '',
+        })
+        setAlert({ show: true, message: auth.resSuccess, variant: 'success' })
+      } else {
+        console.log('auth.resError', auth.resError)
+        setAlert({ show: true, message: auth.resError, variant: 'danger' })
+      }
+    }
   }
   const { email, password } = formData
   return (
@@ -35,23 +68,11 @@ const Login = () => {
             </div>
           </Col>
           <Col>
-            <Card className="login-card">
-              <Card.Header className="text-center">
-                <h1>Login</h1>
-              </Card.Header>
-              <Card.Body>
-                {showAlert.isError ? (
-                  <Alert
-                    variant="danger"
-                    onClose={() =>
-                      setShowAlert({ isError: false, errorMsg: '' })
-                    }
-                    dismissible
-                  >
-                    <Alert.Heading>{showAlert.errorMsg}</Alert.Heading>
-                  </Alert>
-                ) : null}
-                <Form className="login-form" onSubmit={onSubmit}>
+            <div className="d-flex align-items-center justify-content-center flex-column">
+              <h2>Login to BRAVERY!</h2>
+              <Card body className="login-card">
+                <AlertBox alert={alert} setAlert={setAlert} />
+                <Form className="login-form" onSubmit={handleFormSubmit}>
                   <Form.Group className="mb-3" controlId="email">
                     <Form.Label>Email</Form.Label>
                     <Form.Control
@@ -80,11 +101,11 @@ const Login = () => {
                     Login
                   </Button>
                 </Form>
-              </Card.Body>
-              <Card.Footer className="text-muted text-end">
-                <Link to={'#forgot'}>Forgot password?</Link>
-              </Card.Footer>
-            </Card>
+                <Card.Footer className="text-muted text-end">
+                  <Link to={'#forgot'}>Forgot password?</Link>
+                </Card.Footer>
+              </Card>
+            </div>
           </Col>
         </Row>
       </Container>
@@ -92,4 +113,8 @@ const Login = () => {
   )
 }
 
-export default Login
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+})
+
+export default connect(mapStateToProps, { login })(Login)

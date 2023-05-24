@@ -53,6 +53,6 @@ export const clearAuthResponse = () => {
  */
 export const clearAuthData = () => {
   return {
-    type: Actions.CLEAR_AUTH_DATA,
+    type: Actions.CLEAR_AUTH,
   }
 }

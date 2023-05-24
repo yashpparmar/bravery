@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Button,
   Card,
@@ -11,12 +11,31 @@ import {
   Stack,
 } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import './Register.scss'
-import { isEmpty, isEmail, isPassword } from '../../common/helpers/functions'
+import {
+  isEmpty,
+  isEmail,
+  isPassword,
+  isNumber,
+} from '../../common/helpers/functions'
 import AlertBox from '../../components/AlertBox'
-
-const Register = () => {
+import { register } from '../../services/authServices'
+import {
+  createImageFromInitials,
+  getRandomColor,
+} from '../../common/helpers/utils'
+import {
+  clearAuthResponse,
+  setAuthResponseSuccess,
+} from '../../redux/actions/authActions'
+const Register = ({
+  auth,
+  register,
+  clearAuthResponse,
+  setAuthResponseSuccess,
+}) => {
   const [formData, setFormData] = useState({
     fullName: '',
     gender: '',
@@ -27,12 +46,15 @@ const Register = () => {
     confirmPassword: '',
     avatar: null,
   })
+
   const [filePreview, setFilePreview] = useState(null)
+
   const [alert, setAlert] = useState({
     show: false,
     variant: 'danger',
     message: '',
   })
+
   const onChangeFormData = (key, value) => {
     if (!key) return
     setFormData((prev) => ({ ...prev, [key]: value }))
@@ -46,6 +68,17 @@ const Register = () => {
     }
   }
 
+  const displayError = () => {
+    return <AlertBox alert={alert} setAlert={setAlert} />
+  }
+
+  useEffect(() => {
+    return () => {
+      clearAuthResponse()
+    }
+    // eslint-disable-next-line
+  }, [])
+
   const {
     fullName,
     dateOfBirth,
@@ -54,9 +87,10 @@ const Register = () => {
     email,
     password,
     confirmPassword,
+    avatar,
   } = formData
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault()
     console.log('formData', formData)
     let error = ''
@@ -68,33 +102,61 @@ const Register = () => {
       error = 'DOB is required!'
     } else if (isEmpty(phoneNumber)) {
       error = 'Phone number is required!'
+    } else if (!isNumber(phoneNumber)) {
+      error = 'Not valid phone number!'
     } else if (isEmpty(email)) {
       error = 'Email is required!'
-    } else if (isEmpty(password)) {
-      error = 'Password is required!'
-    } else if (isEmpty(confirmPassword)) {
-      error = 'Confirm password is required!'
     } else if (!isEmail(email)) {
       error = 'Not valid email'
+    } else if (isEmpty(password)) {
+      error = 'Password is required!'
     } else if (!isPassword(password)) {
       error = 'Password should be 8 characters minimum'
+    } else if (isEmpty(confirmPassword)) {
+      error = 'Confirm password is required!'
     } else if (password !== confirmPassword) {
       error = 'Password not match with confirm password'
     }
 
-    if (error) {
+    if (avatar === null && fullName !== '') {
+      formData['avatar'] = await createImageFromInitials(
+        100,
+        fullName,
+        getRandomColor()
+      )
+    }
+
+    if (!isEmpty(error)) {
       setAlert({ show: true, message: error, variant: 'danger' })
     } else {
-      console.log('no error')
+      const result = await register(formData)
+      console.log('result', result)
+      if (result === 200) {
+        setAlert({ show: true, message: auth.resSuccess, variant: 'success' })
+        setFilePreview(null)
+        setFormData({
+          fullName: '',
+          gender: '',
+          dateOfBirth: '',
+          phoneNumber: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+          avatar: null,
+        })
+      } else {
+        setAlert({ show: true, message: auth.resError, variant: 'danger' })
+      }
     }
   }
 
   return (
     <Container fluid className="register-container">
-      <Stack direction="horizontal" gap={5}>
-        <div className="mt-3">
-          <Figure className="mb-0">
+      <Stack className="pt-3" direction="horizontal" gap={3}>
+        <div>
+          <Figure className="mb-0 d-flex align-items-center">
             <Figure.Image
+              className="mb-0"
               width={50}
               height={50}
               alt="Bravery Logo"
@@ -104,11 +166,16 @@ const Register = () => {
             <span className="text-uppercase fw-bolder">Bravery</span>
           </Figure>
         </div>
+        <div className="ms-auto">
+          <Link className="login-link" to={'/account/login'}>
+            Login
+          </Link>
+        </div>
       </Stack>
       <div className="d-flex align-items-center justify-content-center flex-column">
         <h2>Create Account!</h2>
         <Card body className="register-card">
-          <AlertBox alert={alert} setAlert={setAlert} />
+          {displayError()}
           <Form onSubmit={handleFormSubmit}>
             <Row className="mb-3">
               <Col
@@ -156,25 +223,34 @@ const Register = () => {
                     </Form.Label>
                     <Col sm={8}>
                       <Form.Check
-                        type="radio"
                         label="Male"
                         name="genderRadio"
-                        id="male"
-                        onChange={(e) => onChangeFormData('gender', 'Male')}
+                        type="radio"
+                        id="Male"
+                        checked={gender === 'Male'}
+                        onChange={(e) =>
+                          onChangeFormData('gender', e.target.id)
+                        }
                       />
                       <Form.Check
-                        type="radio"
                         label="Female"
                         name="genderRadio"
-                        id="female"
-                        onChange={(e) => onChangeFormData('gender', 'Female')}
+                        type="radio"
+                        id="Female"
+                        checked={gender === 'Female'}
+                        onChange={(e) =>
+                          onChangeFormData('gender', e.target.id)
+                        }
                       />
                       <Form.Check
-                        type="radio"
                         label="Other"
                         name="genderRadio"
-                        id="other"
-                        onChange={(e) => onChangeFormData('gender', 'Other')}
+                        type="radio"
+                        id="Other"
+                        checked={gender === 'Other'}
+                        onChange={(e) =>
+                          onChangeFormData('gender', e.target.id)
+                        }
                       />
                     </Col>
                   </Form.Group>
@@ -253,4 +329,8 @@ const mapSateToProps = (state) => ({
   auth: state.auth,
 })
 
-export default connect(mapSateToProps, {})(Register)
+export default connect(mapSateToProps, {
+  register,
+  clearAuthResponse,
+  setAuthResponseSuccess,
+})(Register)

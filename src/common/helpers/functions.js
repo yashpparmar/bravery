@@ -25,7 +25,6 @@ export function isPassword(value) {
     // eslint-disable-next-line
     /^.{8,}$/
   var isValid = myRegEx.test(value)
-  console.log('isValid? ', isValid)
   return isValid ? true : false
 }
 
