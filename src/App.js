@@ -6,7 +6,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import store from './redux/store/store'
 import routes from './routes/routes'
-import PrivatesRoutes from './routes/PrivatesRoutes'
 
 function App() {
   console.log('routes', routes)
@@ -15,11 +14,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           {routes.map((route, i) => {
-            if (route.private) {
-              return <PrivatesRoutes key={i} {...route} />
-            } else {
-              return <Route key={i} {...route} />
-            }
+            return <Route key={i} {...route} />
           })}
         </Routes>
       </BrowserRouter>

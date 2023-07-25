@@ -30,12 +30,7 @@ import {
   clearAuthResponse,
   setAuthResponseSuccess,
 } from '../../redux/actions/authActions'
-const Register = ({
-  auth,
-  register,
-  clearAuthResponse,
-  setAuthResponseSuccess,
-}) => {
+const Register = ({ auth, register, clearAuthResponse }) => {
   const [formData, setFormData] = useState({
     fullName: '',
     gender: '',
@@ -131,8 +126,12 @@ const Register = ({
     } else {
       const result = await register(formData)
       console.log('result', result)
-      if (result === 200) {
-        setAlert({ show: true, message: auth.resSuccess, variant: 'success' })
+      if (result?.status === 200) {
+        setAlert({
+          show: true,
+          message: 'User registered successfully',
+          variant: 'success',
+        })
         setFilePreview(null)
         setFormData({
           fullName: '',
@@ -145,7 +144,7 @@ const Register = ({
           avatar: null,
         })
       } else {
-        setAlert({ show: true, message: auth.resError, variant: 'danger' })
+        setAlert({ show: true, message: result, variant: 'danger' })
       }
     }
   }
@@ -160,19 +159,22 @@ const Register = ({
               width={50}
               height={50}
               alt="Bravery Logo"
-              src="/images/bravery-logo.jpg"
+              src="/images/bravery-logo.png"
             />
             &nbsp;
             <span className="text-uppercase fw-bolder">Bravery</span>
           </Figure>
         </div>
         <div className="ms-auto">
-          <Link className="login-link" to={'/account/login'}>
+          <Link className="menu-link" to={'/'}>
+            Home
+          </Link>
+          <Link className="menu-link" to={'/account/login'}>
             Login
           </Link>
         </div>
       </Stack>
-      <div className="d-flex align-items-center justify-content-center flex-column">
+      <div className="pt-3 d-flex align-items-center justify-content-center flex-column">
         <h2>Create Account!</h2>
         <Card body className="register-card">
           {displayError()}

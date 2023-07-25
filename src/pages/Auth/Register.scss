@@ -1,26 +1,21 @@
-.login-container {
+$layout-breakpoint-mobile: 480px;
+$layout-breakpoint-tablets: 768px;
+$layout-breakpoint-laptop: 1024px;
+.register-container {
   background-color: wheat;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  .text-info {
-    h1 {
-      font-size: 4rem;
-      font-weight: 700;
-      color: black;
-    }
-    p {
-      font-size: 1.5rem;
-      color: black;
-      a {
-        color: #ff6a00;
-      }
+  min-height: 100vh;
+  .menu-link {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #ff6a00;
+    text-decoration: none;
+    margin-right: 1rem;
+    &:hover {
+      text-decoration: underline;
+      text-underline-offset: 0.125em;
     }
   }
-
-  .login-card {
+  .register-card {
     position: relative;
     margin: 1rem auto;
     min-width: 40rem;
@@ -32,6 +27,10 @@
     border-radius: 15px;
     background: white;
     --bs-card-cap-bg: rgb(0, 0, 0, 0);
+
+    @media (max-width: $layout-breakpoint-tablets) {
+      min-width: 100%;
+    }
 
     &:hover {
       transform: scale(1.02, 1.02);
@@ -80,23 +79,4 @@
       }
     }
   }
-
-  // .login-card {
-  //   position: relative;
-  //   // margin: 30px auto;
-  //   // width: 400px;
-  //   height: auto;
-  //   min-height: auto;
-  //   cursor: pointer;
-  //   transition: 0.4s;
-  //   border: 0;
-  //   border-radius: 15px;
-  //   background: white;
-  //   --bs-card-cap-bg: rgb(0, 0, 0, 0);
-  //   &:hover {
-  //     transform: scale(1.04, 1.04);
-  //     box-sizing: border-box;
-  //     box-shadow: 1px 1px 61px -11px rgba(0, 0, 0, 0.15);
-  //   }
-  // }
 }

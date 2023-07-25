@@ -42,13 +42,14 @@ export const register = (obj) => async (dispatch, getState) => {
       if (status === 200) {
         dispatch(setAuthResponseSuccess('User registered successfully.'))
       }
-      return status
+      return response
     }
   } catch (error) {
     dispatchAuthError(
       getAPIResponseError(error) || 'Unable to Register, please try again',
       dispatch
     )
+    return getAPIResponseError(error)
   } finally {
     dispatch(setAuthLoader(false))
   }
@@ -71,7 +72,7 @@ export const login = (obj) => async (dispatch, getState) => {
       if (status === 200) {
         dispatch(setAuthResponseSuccess('User login successfully.'))
       }
-      return status
+      return response
     }
   } catch (error) {
     dispatchAuthError(

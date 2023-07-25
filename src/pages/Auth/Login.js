@@ -1,5 +1,16 @@
 import React, { useState } from 'react'
-import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap'
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Figure,
+  Form,
+  Row,
+  Stack,
+  Toast,
+  ToastContainer,
+} from 'react-bootstrap'
 
 import './Login.scss'
 import { Link } from 'react-router-dom'
@@ -18,6 +29,8 @@ const Login = ({ auth, login }) => {
     variant: 'danger',
     message: '',
   })
+
+  const [toast, setToast] = useState(false)
   const onChangeFormData = (e) => {
     const { id, value } = e.target
     setFormData((prev) => ({ ...prev, [id]: value }))
@@ -41,12 +54,13 @@ const Login = ({ auth, login }) => {
     } else {
       const result = await login(formData)
       console.log('result', result)
-      if (result === 200) {
+      if (result.status === 200) {
         setFormData({
           email: '',
           password: '',
         })
-        setAlert({ show: true, message: auth.resSuccess, variant: 'success' })
+        setToast(true)
+        // setAlert({ show: true, message: auth.resSuccess, variant: 'success' })
       } else {
         console.log('auth.resError', auth.resError)
         setAlert({ show: true, message: auth.resError, variant: 'danger' })
@@ -55,10 +69,52 @@ const Login = ({ auth, login }) => {
   }
   const { email, password } = formData
   return (
-    <div className="login-container">
-      <Container>
-        <Row className="align-items-center">
-          <Col>
+    <Container fluid className="login-container">
+      <ToastContainer className="p-3" position="top-end" style={{ zIndex: 1 }}>
+        <Toast
+          bg="success"
+          onClose={() => setToast(false)}
+          show={toast}
+          delay={4000}
+          autohide
+        >
+          <Toast.Header>
+            <img
+              src="holder.js/20x20?text=%20"
+              className="rounded me-2"
+              alt=""
+            />
+            <strong className="me-auto">Success</strong>
+          </Toast.Header>
+          <Toast.Body className="text-light">{auth.resSuccess}</Toast.Body>
+        </Toast>
+      </ToastContainer>
+      <Stack className="pt-3" direction="horizontal" gap={3}>
+        <div>
+          <Figure className="mb-0 d-flex align-items-center">
+            <Figure.Image
+              className="mb-0"
+              width={50}
+              height={50}
+              alt="Bravery Logo"
+              src="/images/bravery-logo.png"
+            />
+            &nbsp;
+            <span className="text-uppercase fw-bolder">Bravery</span>
+          </Figure>
+        </div>
+        <div className="ms-auto">
+          <Link className="menu-link" to={'/'}>
+            Home
+          </Link>
+          <Link className="menu-link" to={'/account/register'}>
+            Register
+          </Link>
+        </div>
+      </Stack>
+      <Container className="card-container">
+        <Row className="align-items-center w-100">
+          <Col sm="0" lg>
             <div className="text-info">
               <h1>Sign into Bravery Direct</h1>
               <p>
@@ -67,13 +123,13 @@ const Login = ({ auth, login }) => {
               </p>
             </div>
           </Col>
-          <Col>
+          <Col sm="12" lg>
             <div className="d-flex align-items-center justify-content-center flex-column">
               <h2>Login to BRAVERY!</h2>
               <Card body className="login-card">
                 <AlertBox alert={alert} setAlert={setAlert} />
                 <Form className="login-form" onSubmit={handleFormSubmit}>
-                  <Form.Group className="mb-3" controlId="email">
+                  <Form.Group className="my-3" controlId="email">
                     <Form.Label>Email</Form.Label>
                     <Form.Control
                       type="email"
@@ -82,8 +138,7 @@ const Login = ({ auth, login }) => {
                       onChange={onChangeFormData}
                     />
                   </Form.Group>
-
-                  <Form.Group className="mb-3" controlId="password">
+                  <Form.Group className="my-3" controlId="password">
                     <Form.Label>Password</Form.Label>
                     <Form.Control
                       type="password"
@@ -92,24 +147,25 @@ const Login = ({ auth, login }) => {
                       onChange={onChangeFormData}
                     />
                   </Form.Group>
-                  <Form.Group className="mb-3"></Form.Group>
                   <Button
-                    className="text-center"
+                    className="login-btn my-3"
                     variant="primary"
                     type="submit"
                   >
                     Login
                   </Button>
                 </Form>
-                <Card.Footer className="text-muted text-end">
-                  <Link to={'#forgot'}>Forgot password?</Link>
-                </Card.Footer>
+                {/* <Card.Footer className="text-muted text-end">
+                </Card.Footer> */}
               </Card>
+              {/* <div className="align-self-end pe-3">
+                <Link to={'#forgot'}>Forgot password?</Link>
+              </div> */}
             </div>
           </Col>
         </Row>
       </Container>
-    </div>
+    </Container>
   )
 }
 
