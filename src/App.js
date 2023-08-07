@@ -1,25 +1,36 @@
-import React from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import { Provider } from 'react-redux'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-
-import './App.css'
-import store from './redux/store/store'
-import routes from './routes/routes'
+import React from "react";
+import {Provider} from "react-redux";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import store from "./redux/store/store";
+import AuthLayout from "./layouts/AuthLayout";
+import UserLayout from "./layouts/UserLayout";
+import Landing from "./pages/Landing/Landing";
+import PageNotFound from "./pages/NotFound/PageNotFound";
+import "./App.css";
 
 function App() {
-  console.log('routes', routes)
   return (
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          {routes.map((route, i) => {
-            return <Route key={i} {...route} />
-          })}
+          <Route index element={<Landing />} />
+
+          {/* Auth Routes */}
+          <Route path='auth/*' element={<AuthLayout />} />
+
+          {/* User Routes */}
+          <Route path='user/*' element={<UserLayout />} />
+
+          <Route path='*' element={<PageNotFound />} />
+
+          {/* {routes.map((route, i) => {
+            return <Route key={i} {...route} />;
+          })} */}
         </Routes>
       </BrowserRouter>
     </Provider>
-  )
+  );
 }
 
-export default App
+export default App;

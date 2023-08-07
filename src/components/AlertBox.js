@@ -1,21 +1,21 @@
-import React from 'react'
-import { Alert } from 'react-bootstrap'
+import React from "react";
+import {Alert} from "react-bootstrap";
 
-const AlertBox = ({ alert, setAlert }) => {
+const AlertBox = ({alert, setAlert}) => {
   return alert.show && alert.message && alert.variant ? (
     <Alert
-      variant={alert.variant || 'danger'}
+      variant={alert.variant || "danger"}
       onClose={() =>
         setAlert({
           show: false,
-          message: '',
+          message: "",
         })
       }
       dismissible
     >
       {alert.message}
     </Alert>
-  ) : null
-}
+  ) : null;
+};
 
-export default AlertBox
+export default AlertBox;

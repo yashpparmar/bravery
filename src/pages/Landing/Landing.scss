@@ -1,21 +1,27 @@
-.main-section {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  &::before {
-    content: '';
-    display: block;
-    position: absolute;
-    opacity: 0.7;
-    background-image: url('../../../public/images/bravery-bg.jpeg');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100%;
-    width: 100%;
-  }
-  .container {
-    position: relative;
-    height: 100vh;
-  }
+@import "../../styles/variables.scss";
+
+// .main-section {
+//   position: relative;
+//   display: flex;
+//   justify-content: center;
+//   top: 4.17rem;
+//   &::before {
+//     content: "";
+//     display: block;
+//     position: absolute;
+//     opacity: 0.7;
+//     background-image: url("../../../public/images/bravery-bg.jpeg");
+//     background-position: center;
+//     background-repeat: no-repeat;
+//     background-size: cover;
+//     height: 100%;
+//     width: 100%;
+//   }
+//   .container {
+//     position: relative;
+//     height: 100vh;
+//   }
+// }
+.site-container {
+  background-color: $primary;
 }

@@ -1,8 +1,8 @@
 // AUTH
 
-export const SET_AUTH_LOADER = 'SET_AUTH_LOADER'
-export const SET_USER = 'SET_USER'
-export const SET_AUTH_RES_ERROR = 'SET_AUTH_RES_ERROR'
-export const SET_AUTH_RES_SUCCESS = 'SET_AUTH_RES_SUCCESS'
-export const CLEAR_AUTH_RES = 'CLEAR_AUTH_RES'
-export const CLEAR_AUTH = 'CLEAR_AUTH'
+export const SET_AUTH_LOADER = "SET_AUTH_LOADER";
+export const SET_USER = "SET_USER";
+export const SET_AUTH_RES_ERROR = "SET_AUTH_RES_ERROR";
+export const SET_AUTH_RES_SUCCESS = "SET_AUTH_RES_SUCCESS";
+export const CLEAR_AUTH_RES = "CLEAR_AUTH_RES";
+export const CLEAR_AUTH = "CLEAR_AUTH";

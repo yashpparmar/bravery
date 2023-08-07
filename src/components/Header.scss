@@ -1,0 +1,82 @@
+@import "./../styles/variables.scss";
+
+.header {
+  background: $primary;
+  box-shadow: 1px 2px 15px rgba(0, 0, 0, 0.1);
+
+  .navToggleBtn {
+    background-color: $secondary;
+  }
+
+  .menu {
+    &-logo {
+    }
+    &-link {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: $secondary;
+      text-decoration: none;
+      margin: 0 0.5rem;
+      &:hover {
+        text-decoration: underline;
+        text-underline-offset: 0.125em;
+      }
+    }
+  }
+
+  .profile {
+    & > a {
+      background-color: #fff;
+      width: 40px;
+      height: 40px;
+      margin-left: 20px;
+      padding: 0 !important;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &::after {
+        content: unset;
+      }
+      img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+    }
+    .dropdown-menu[data-bs-popper] {
+      left: unset !important;
+      right: 0 !important;
+    }
+  }
+}
+.offcanvas {
+  &-header {
+    background-color: $secondary;
+  }
+  &-body {
+    background-color: $primary;
+    .profile {
+      & > a {
+        background-color: #fff;
+        width: 40px;
+        height: 40px;
+        padding: 0 !important;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &::after {
+          content: unset;
+        }
+        img {
+          object-fit: cover;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+}
