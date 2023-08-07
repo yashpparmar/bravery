@@ -50,6 +50,7 @@ const Register = ({register, clearAuthResponse}) => {
     return () => {
       clearAuthResponse();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const {fullName, dateOfBirth, gender, phoneNumber, email, password, confirmPassword, avatar} =
