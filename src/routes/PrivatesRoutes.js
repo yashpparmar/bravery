@@ -17,6 +17,7 @@ const PrivatesRoutes = ({element, auth, getUser}) => {
       }
     }
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return localAuth ? element : <Navigate to={"/auth/login"} />;
