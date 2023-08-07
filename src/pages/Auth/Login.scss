@@ -1,0 +1,67 @@
+@import "../../styles/variables.scss";
+
+$layout-breakpoint-mobile: 480px;
+$layout-breakpoint-tablets: 768px;
+$layout-breakpoint-laptop: 1024px;
+
+.login {
+  background-color: $primary;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  .card-container {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .text-info {
+      @media (max-width: $layout-breakpoint-tablets) {
+        display: none;
+      }
+      h1 {
+        font-size: 4rem;
+        font-weight: 700;
+        color: #000000;
+      }
+      p {
+        font-size: 1.5rem;
+        color: #000000;
+        a {
+          color: $secondary;
+        }
+      }
+    }
+    .login-card {
+      position: relative;
+      margin: 1rem auto;
+      min-width: 30rem;
+      height: auto;
+      min-height: 100%;
+      transition: 0.4s;
+      font-size: large;
+      border: 0;
+      border-radius: 15px;
+      background: #ffffff;
+      --bs-card-cap-bg: rgb(0, 0, 0, 0);
+
+      @media (max-width: $layout-breakpoint-tablets) {
+        min-width: 100%;
+      }
+
+      &:hover {
+        transform: scale(1.03, 1.03);
+        box-sizing: border-box;
+        box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+      }
+      .login-btn {
+        width: 100%;
+        border: 0;
+        font-size: large;
+        background-color: $secondary;
+        &:hover {
+          background-color: rgb(255, 100, 0, 0.8);
+        }
+      }
+    }
+  }
+}

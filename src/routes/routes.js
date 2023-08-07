@@ -1,21 +1,25 @@
-import { createBrowserRouter } from 'react-router-dom'
-import Landing from '../pages/Landing/Landing'
-import Login from '../pages/User/Login'
-import Register from '../pages/User/Register'
+// import Landing from "../pages/Landing/Landing";
+// import Register from "../pages/Auth/Register";
+// import Login from "../pages/Auth/Login";
+// import UserDashboard from "../pages/User/UserDashboard";
+// import PrivatesRoutes from "./PrivatesRoutes";
+// const routes = [
+//   {
+//     path: "/",
+//     element: <Landing />,
+//   },
+//   {
+//     path: "/account/register",
+//     element: <Register />,
+//   },
+//   {
+//     path: "/account/login",
+//     element: <Login />,
+//   },
+//   {
+//     path: "/user/dashboard",
+//     element: <PrivatesRoutes component={<UserDashboard />} />,
+//   },
+// ];
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Landing />,
-  },
-  {
-    path: '/register',
-    element: <Register />,
-  },
-  {
-    path: '/login',
-    element: <Login />,
-  },
-])
-
-export default router
+// export default routes;

@@ -1,0 +1,87 @@
+@import "../../styles/variables.scss";
+
+$layout-breakpoint-mobile: 480px;
+$layout-breakpoint-tablets: 768px;
+$layout-breakpoint-laptop: 1024px;
+
+.register-container {
+  background-color: $primary;
+  min-height: 100%;
+  .menu-link {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: $secondary;
+    text-decoration: none;
+    margin-right: 1rem;
+    &:hover {
+      text-decoration: underline;
+      text-underline-offset: 0.125em;
+    }
+  }
+  .register-card {
+    position: relative;
+    margin: 1rem auto;
+    min-width: 40rem;
+    height: auto;
+    min-height: auto;
+    transition: 0.4s;
+    border: 0;
+    border-radius: 15px;
+    background: #fff;
+    --bs-card-cap-bg: rgb(0, 0, 0, 0);
+
+    @media (max-width: $layout-breakpoint-tablets) {
+      min-width: 100%;
+    }
+
+    &:hover {
+      transform: scale(1.02, 1.02);
+      box-sizing: border-box;
+      box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+    }
+    .profile-container {
+      width: 171px;
+      height: 171px;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      border-radius: 50%;
+      img {
+        border: 1px solid #808080;
+        height: 171px;
+        width: 171px;
+      }
+      .overlay {
+        position: absolute;
+        border-radius: 50%;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        transition: opacity 0.5s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        label {
+          cursor: pointer;
+        }
+      }
+      &:hover {
+        .overlay {
+          opacity: 1;
+        }
+      }
+    }
+    .register-btn {
+      width: 100%;
+      border: 0;
+      background-color: $secondary;
+      &:hover {
+        background-color: rgb(255, 100, 0, 0.8);
+      }
+    }
+  }
+}
