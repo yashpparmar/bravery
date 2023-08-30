@@ -34,11 +34,13 @@ const Register = ({register, clearAuthResponse}) => {
   };
 
   const fileRef = useRef(null);
+
   const handleFileChange = (e) => {
     const {files} = e.target;
     if (files && files.length > 0) {
       onChangeFormData("avatar", files[0]);
-      setFilePreview(URL.createObjectURL(files[0]));
+      const blob = new Blob([files[0]], {type: files[0].type});
+      setFilePreview(URL.createObjectURL(blob));
     }
   };
 
@@ -116,7 +118,7 @@ const Register = ({register, clearAuthResponse}) => {
 
   return (
     <Container fluid className='register-container'>
-      <div className='pt-4 d-flex align-items-center justify-content-center flex-column'>
+      <div className='h-100 d-flex align-items-center justify-content-center flex-column'>
         <h2>Create Account!</h2>
         <Card body className='register-card'>
           {displayError()}
@@ -136,6 +138,7 @@ const Register = ({register, clearAuthResponse}) => {
                         <Form.Control
                           ref={fileRef}
                           type='file'
+                          accept='image/png, image/jpeg'
                           onChange={handleFileChange}
                           style={{display: "none"}}
                         />

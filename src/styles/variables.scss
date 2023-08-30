@@ -1,18 +1,66 @@
-/* change the colors */
-// $primary: #ffe9c0 !important;
-// $secondary: #ff6a00 !important;
-// $success: #198754 !important;
-// $info: #0dcaf0 !important;
-// $warning: #ffc107 !important;
-// $danger: #dc3545 !important;
-// $light: #f8f9fa !important;
-// $dark: #212529 !important;
+$white: var(--white);
+$black: var(--black);
+$pink: var(--pink);
+$dark-pink: var(--dark-pink);
+$dark-grey: var(--dark-grey);
+$grey: var(--grey);
+$light-grey-1: var(--light-grey-1);
+$light-grey-0: var(--light-grey-0);
+$light-blue: var(--light-blue);
+$red: var(--red);
+$light-red: var(--light-red);
+$yellow: var(--yellow);
+$dark-yellow: var(--dark-yellow);
+$green: var(--green);
+$dark-green: var(--dark-green);
+$transparent-light-green-1: var(--transparent-light-green-1);
+$light-green-1: var(--light-green-1);
+$light-green-0: var(--light-green-0);
+$primary: var(--primary);
+$secondary: var(--secondary);
+$success: var(--success);
+$info: var(--info);
+$warning: var(--warning);
+$danger: var(--danger);
+$light: var(--light);
+$dark: var(--dark);
 
-$primary: rgb(255, 233, 192);
-$secondary: rgb(255, 106, 0);
-$success: rgb(25, 135, 84);
-$info: rgb(13, 202, 240);
-$warning: rgb(255, 193, 7);
-$danger: rgb(220, 53, 69);
-$light: rgb(248, 249, 250);
-$dark: rgb(33, 37, 41);
+$colors: (
+  "black": $black,
+  "white": $white,
+  "grey": $grey,
+  "light-grey-1": $light-grey-1,
+  "light-red": $light-red,
+  "yellow": $yellow,
+  "dark-yellow": $dark-yellow,
+  "green": $green,
+  "dark-green": $dark-green,
+);
+
+$layout-breakpoint-mobile: 480px;
+$layout-breakpoint-tablets: 768px;
+$layout-breakpoint-laptop: 1024px;
+
+@mixin background-colors {
+  @each $color-name, $color-value in $colors {
+    &-#{$color-name} {
+      background-color: $color-value !important;
+    }
+  }
+}
+
+@mixin text-colors {
+  @each $color-name, $color-value in $colors {
+    &-#{$color-name} {
+      color: $color-value !important;
+    }
+  }
+}
+
+@mixin svg-colors {
+  @each $color-name, $color-value in $colors {
+    &-#{$color-name} {
+      fill: $color-value !important;
+    }
+  }
+}
