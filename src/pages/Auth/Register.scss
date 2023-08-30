@@ -6,7 +6,8 @@ $layout-breakpoint-laptop: 1024px;
 
 .register-container {
   background-color: $primary;
-  min-height: 100%;
+  padding-bottom: 3.75rem;
+  height: 100%;
   .menu-link {
     font-size: 1.1rem;
     font-weight: 500;
@@ -23,7 +24,7 @@ $layout-breakpoint-laptop: 1024px;
     margin: 1rem auto;
     min-width: 40rem;
     height: auto;
-    min-height: auto;
+    height: auto;
     transition: 0.4s;
     border: 0;
     border-radius: 15px;

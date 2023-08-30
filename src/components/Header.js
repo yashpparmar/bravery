@@ -1,4 +1,4 @@
-import React, {memo, useState} from "react";
+import React, {memo, useEffect, useState} from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -6,28 +6,52 @@ import {Button, Figure, Modal, NavDropdown, Offcanvas} from "react-bootstrap/esm
 import {connect} from "react-redux";
 import {Link, redirect} from "react-router-dom";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 import {deleteAllLocalData} from "../common/helpers/localStorage";
 import "./Header.scss";
 
 const Header = (props) => {
   const {routes, auth} = props;
   const [showModal, setShowModal] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  const handleScroll = () => {
+    setIsScrolled(window.scrollY > 0);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const getUserData = () => {
     setShowModal(true);
     // getUserData here
   };
+
   const editProfile = () => {
     //EditProfile here
     setShowModal(false);
   };
+
   const logout = () => {
     deleteAllLocalData();
     redirect("/");
   };
+
   return (
-    <>
-      <Navbar collapseOnSelect expand='lg' fixed='top' id='mainNav' className='header'>
+    <header>
+      <Navbar
+        collapseOnSelect
+        expand='sm'
+        fixed='top'
+        id='mainNav'
+        className={classNames("header", {
+          "header-shadow": isScrolled,
+        })}
+      >
         <Container fluid>
           <Navbar.Brand as={Link} to='/'>
             <Figure className='mb-0 d-flex align-items-center'>
@@ -42,14 +66,14 @@ const Header = (props) => {
               <b>Bravery</b>
             </Figure>
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-lg`} className='navToggleBtn' />
+          <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-sm`} className='navToggleBtn' />
           <Navbar.Offcanvas
-            id={`offcanvasNavbar-expand-lg`}
-            aria-labelledby={`offcanvasNavbarLabel-expand-lg`}
+            id={`offcanvasNavbar-expand-sm`}
+            aria-labelledby={`offcanvasNavbarLabel-expand-sm`}
             placement='end'
           >
             <Offcanvas.Header closeButton>
-              <Offcanvas.Title id={`offcanvasNavbarLabel-expand-lg`}>Bravery</Offcanvas.Title>
+              <Offcanvas.Title id={`offcanvasNavbarLabel-expand-sm`}>Bravery</Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className='ms-auto justify-content-end flex-grow-1 pe-3'>
@@ -69,7 +93,7 @@ const Header = (props) => {
                   <NavDropdown
                     title={<img src={auth?.user?.profile?.avatar} alt='avatar' />}
                     className='profile'
-                    id={`offcanvasNavbarDropdown-expand-lg`}
+                    id={`offcanvasNavbarDropdown-expand-sm`}
                   >
                     <NavDropdown.Item onClick={getUserData}> Edit Profile </NavDropdown.Item>
                     <NavDropdown.Item onClick={logout}> Logout </NavDropdown.Item>
@@ -101,7 +125,7 @@ const Header = (props) => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </header>
   );
 };
 

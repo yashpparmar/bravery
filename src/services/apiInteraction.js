@@ -1,6 +1,5 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import {REACT_API_URL} from "../global/environment";
 import {getLocalAuthToken} from "../common/helpers/localStorage";
 
 const setupToken = () => {
@@ -35,7 +34,7 @@ export const clearHeadersAuthToken = () => {
 };
 
 export const axiosInstance = axios.create({
-  baseURL: REACT_API_URL,
+  baseURL: process.env.REACT_APP_BACKEND_API_URL,
 });
 
 axiosInstance.interceptors.response.use(

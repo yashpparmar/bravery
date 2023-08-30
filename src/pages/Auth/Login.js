@@ -10,16 +10,20 @@ import "./Login.scss";
 
 const Login = ({auth, login}) => {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
   const [alert, setAlert] = useState({
     show: false,
     variant: "danger",
     message: "",
   });
+
   const [toast, setToast] = useState(false);
+
   const onChangeFormData = (e) => {
     const {id, value} = e.target;
     setFormData((prev) => ({...prev, [id]: value}));
@@ -56,7 +60,9 @@ const Login = ({auth, login}) => {
       }
     }
   };
+
   const {email, password} = formData;
+
   return (
     <Container fluid className='login'>
       <ToastContainer className='p-3' position='top-end'>
@@ -75,7 +81,7 @@ const Login = ({auth, login}) => {
               <h1>Sign into Bravery Direct</h1>
               <p>
                 If you don't have a account you can&nbsp;
-                <Link to={"/account/register"}>Register here!</Link>
+                <Link to={"/auth/register"}>Register here!</Link>
               </p>
             </div>
           </Col>

@@ -2,8 +2,11 @@
 
 .header {
   background: $primary;
-  box-shadow: 1px 2px 15px rgba(0, 0, 0, 0.1);
-
+  padding: 0.5rem 0.3rem;
+  transition: box-shadow 0.3s ease;
+  &.header-shadow {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
   .navToggleBtn {
     background-color: $secondary;
   }
@@ -17,7 +20,9 @@
       color: $secondary;
       text-decoration: none;
       margin: 0 0.5rem;
+      transition: all 0.3s ease;
       &:hover {
+        color: $black;
         text-decoration: underline;
         text-underline-offset: 0.125em;
       }

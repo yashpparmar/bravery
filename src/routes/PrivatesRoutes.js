@@ -7,6 +7,7 @@ import {getLocalUserDetails} from "../common/helpers/localStorage";
 
 const PrivatesRoutes = ({element, auth, getUser}) => {
   const localAuth = !!getLocalUserDetails();
+
   useEffect(() => {
     function fetchData() {
       if (localAuth) {
