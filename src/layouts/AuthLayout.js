@@ -1,6 +1,6 @@
 import React from "react";
 import {Navigate, Route, Routes} from "react-router-dom";
-import Header from "../components/Header";
+import Header from "../components/Header/Header";
 import {authRoutes} from "../routes/MenuLists/authRoutes";
 import Register from "../pages/Auth/Register";
 import Login from "../pages/Auth/Login";
@@ -17,7 +17,7 @@ const AuthLayout = () => {
             <Routes>
               <Route index path='login' element={<Login />} />
               <Route exact path='register' element={<Register />} />
-              <Route path='*' element={<Navigate to='login' replace={true} />} />
+              <Route path='*' element={<Navigate to='login' />} />
             </Routes>
           </SectionWrapper>
         </LayoutContainer>

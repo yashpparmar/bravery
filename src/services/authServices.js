@@ -7,9 +7,14 @@ import {
   setCurrentUser,
 } from "../redux/actions/authActions";
 import {getAPIResponseError} from "../common/common";
-import {saveLocalAuthToken, saveLocalUserDetails} from "../common/helpers/localStorage";
+import {
+  deleteAllLocalData,
+  saveLocalAuthToken,
+  saveLocalUserDetails,
+} from "../common/helpers/localStorage";
 import {axiosInstance} from "./apiInteraction";
 import {endPoints} from "./apiEndPoints";
+import {toast} from "react-toastify";
 
 const setLoginSession = (userData) => async (dispatch, getState) => {
   try {
@@ -97,9 +102,15 @@ export const getUser = () => async (dispatch, getState) => {
       dispatch(setCurrentUser(data.user));
       dispatch(setAuthResponseSuccess("User get successfully."));
     } else {
+      toast.error(`Error when getting user: ${status} ` || "Something went wrong!");
       dispatchAuthError(data.data.message || "Login error", dispatch);
     }
   } catch (error) {
+    if (error.code === 401) {
+      deleteAllLocalData();
+      window.location.assign("/auth/login");
+    }
+    toast.error(error.message || "Something went wrong!");
     dispatchAuthError(getAPIResponseError(error) || "Unable to login, please try again", dispatch);
   } finally {
     dispatch(setAuthLoader(false));

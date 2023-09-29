@@ -1,17 +1,16 @@
 import React, {memo, useEffect, useState} from "react";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import {Button, Figure, Modal, NavDropdown, Offcanvas} from "react-bootstrap/esm";
 import {connect} from "react-redux";
-import {Link, redirect} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import {deleteAllLocalData} from "../common/helpers/localStorage";
+import {Container, Nav, Navbar} from "react-bootstrap";
+import {Button, Figure, Modal, NavDropdown, Offcanvas} from "react-bootstrap/esm";
+import {deleteAllLocalData} from "../../common/helpers/localStorage";
 import "./Header.scss";
 
 const Header = (props) => {
   const {routes, auth} = props;
+  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -38,7 +37,7 @@ const Header = (props) => {
 
   const logout = () => {
     deleteAllLocalData();
-    redirect("/");
+    navigate("/auth/login");
   };
 
   return (
@@ -76,7 +75,7 @@ const Header = (props) => {
               <Offcanvas.Title id={`offcanvasNavbarLabel-expand-sm`}>Bravery</Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
-              <Nav className='ms-auto justify-content-end flex-grow-1 pe-3'>
+              <Nav className='ms-auto justify-content-end flex-grow-1'>
                 {routes
                   ? routes?.map((item) => (
                       <Nav.Link

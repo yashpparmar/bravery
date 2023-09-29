@@ -1,7 +1,7 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Card, Col, Container, Form, Image, Row} from "react-bootstrap";
 import {connect} from "react-redux";
-import AlertBox from "../../components/AlertBox";
+import AlertBox from "../../components/AlertBox/AlertBox";
 import {register} from "../../services/authServices";
 import {createImageFromInitials, getRandomColor} from "../../common/utils";
 import {isEmpty, isEmail, isPassword, isNumber} from "../../common/common";
@@ -32,8 +32,6 @@ const Register = ({register, clearAuthResponse}) => {
     if (!key) return;
     setFormData((prev) => ({...prev, [key]: value}));
   };
-
-  const fileRef = useRef(null);
 
   const handleFileChange = (e) => {
     const {files} = e.target;
@@ -131,20 +129,15 @@ const Register = ({register, clearAuthResponse}) => {
                     src={filePreview || "/images/vector-users.jpg"}
                     roundedCircle
                   />
-                  <div className='overlay' onClick={() => fileRef.current.click()}>
-                    <div className='d-flex align-items-center justify-content-center h-100'>
-                      <Form.Group controlId='avatar' className='mb-0'>
-                        <Form.Label className='text-white mb-0'>Choose Image</Form.Label>
-                        <Form.Control
-                          ref={fileRef}
-                          type='file'
-                          accept='image/png, image/jpeg'
-                          onChange={handleFileChange}
-                          style={{display: "none"}}
-                        />
-                      </Form.Group>
-                    </div>
-                  </div>
+                  <Form.Group controlId='avatar' className='avatar mb-0 '>
+                    <Form.Label>Choose Image</Form.Label>
+                    <Form.Control
+                      type='file'
+                      accept='image/png, image/jpeg'
+                      onChange={handleFileChange}
+                      className='d-none'
+                    />
+                  </Form.Group>
                 </div>
               </Col>
               <Col sm={6}>
@@ -157,39 +150,37 @@ const Register = ({register, clearAuthResponse}) => {
                     onChange={(e) => onChangeFormData("fullName", e.target.value)}
                   />
                 </Form.Group>
-                <fieldset className='mb-3'>
-                  <Form.Group as={Row} controlId='gender'>
-                    <Form.Label as='legend' column sm={4}>
-                      Gender
-                    </Form.Label>
-                    <Col sm={8}>
-                      <Form.Check
-                        label='Male'
-                        name='genderRadio'
-                        type='radio'
-                        id='Male'
-                        checked={gender === "Male"}
-                        onChange={(e) => onChangeFormData("gender", e.target.id)}
-                      />
-                      <Form.Check
-                        label='Female'
-                        name='genderRadio'
-                        type='radio'
-                        id='Female'
-                        checked={gender === "Female"}
-                        onChange={(e) => onChangeFormData("gender", e.target.id)}
-                      />
-                      <Form.Check
-                        label='Other'
-                        name='genderRadio'
-                        type='radio'
-                        id='Other'
-                        checked={gender === "Other"}
-                        onChange={(e) => onChangeFormData("gender", e.target.id)}
-                      />
-                    </Col>
-                  </Form.Group>
-                </fieldset>
+                <Form.Group as={Row} className='mb-3'>
+                  <Form.Label as='legend' column sm={4} htmlFor='male'>
+                    Gender
+                  </Form.Label>
+                  <Col sm={8}>
+                    <Form.Check
+                      label='Male'
+                      type='radio'
+                      id='male'
+                      value='Male'
+                      checked={gender === "Male"}
+                      onChange={(e) => onChangeFormData("gender", e.target.value)}
+                    />
+                    <Form.Check
+                      label='Female'
+                      type='radio'
+                      id='female'
+                      value='Female'
+                      checked={gender === "Female"}
+                      onChange={(e) => onChangeFormData("gender", e.target.value)}
+                    />
+                    <Form.Check
+                      label='Other'
+                      type='radio'
+                      id='other'
+                      value='Other'
+                      checked={gender === "Other"}
+                      onChange={(e) => onChangeFormData("gender", e.target.value)}
+                    />
+                  </Col>
+                </Form.Group>
                 <Form.Group controlId='dateOfBirth'>
                   <Form.Label>Date of Birth</Form.Label>
                   <Form.Control
@@ -217,6 +208,7 @@ const Register = ({register, clearAuthResponse}) => {
                   placeholder='Enter email'
                   value={email}
                   onChange={(e) => onChangeFormData("email", e.target.value)}
+                  autoComplete='on'
                 />
               </Form.Group>
             </Row>

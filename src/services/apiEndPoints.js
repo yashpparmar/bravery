@@ -1,6 +1,6 @@
 export const endPoints = {
-  login: "/public/auth/login",
-  register: "/public/auth/signup",
-  deleteUser: "/private/auth/deleteUser",
-  getUser: "/private/auth/getUser",
+  login: "/api/public/auth/login",
+  register: "/api/public/auth/signup",
+  deleteUser: "/api/private/auth/deleteUser",
+  getUser: "/api/private/auth/getUser",
 };

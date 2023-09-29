@@ -1,11 +1,11 @@
 import React, {memo} from "react";
 import {Navigate} from "react-router-dom";
 import PropTypes from "prop-types";
-import {getLocalUserDetails} from "../common/helpers/localStorage";
+import {connect} from "react-redux";
 
-const AuthRoute = (props) => {
-  const isAuthenticated = !!getLocalUserDetails();
-  return isAuthenticated ? <Navigate to='/user/dashboard' /> : props.element;
+const AuthRoute = ({auth, element}) => {
+  const isAuthenticated = auth.isAuthenticated;
+  return isAuthenticated ? <Navigate to='/user/dashboard' /> : element;
 };
 
 AuthRoute.defaultProps = {
@@ -16,4 +16,7 @@ AuthRoute.propTypes = {
   element: PropTypes.element,
 };
 
-export default memo(AuthRoute);
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+export default connect(mapStateToProps, {})(memo(AuthRoute));

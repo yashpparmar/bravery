@@ -1,27 +1,25 @@
 import React, {memo, useEffect} from "react";
-import PropTypes from "prop-types";
 import {Navigate} from "react-router-dom";
 import {connect} from "react-redux";
+import PropTypes from "prop-types";
 import {getUser} from "../services/authServices";
-import {getLocalUserDetails} from "../common/helpers/localStorage";
+import {setupToken} from "../services/apiInteraction";
 
 const PrivatesRoutes = ({element, auth, getUser}) => {
-  const localAuth = !!getLocalUserDetails();
-
+  const token = setupToken();
   useEffect(() => {
-    function fetchData() {
-      if (localAuth) {
+    const fetchData = () => {
+      if (token) {
         // Only call getUser() if auth.isAuthenticated is false
-        if (auth && !auth.isAuthenticated) {
+        if (auth.user && !auth.isAuthenticated) {
           getUser();
         }
       }
-    }
+    };
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  return localAuth ? element : <Navigate to={"/auth/login"} />;
+  return auth.isAuthenticated ? element : <Navigate to='/auth/login' />;
 };
 
 PrivatesRoutes.defaultProps = {
