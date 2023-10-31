@@ -44,7 +44,7 @@ const Header = (props) => {
     <header>
       <Navbar
         collapseOnSelect
-        expand='sm'
+        expand='lg'
         fixed='top'
         id='mainNav'
         className={classNames("header", {
@@ -65,14 +65,14 @@ const Header = (props) => {
               <b>Bravery</b>
             </Figure>
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-sm`} className='navToggleBtn' />
+          <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-lg`} className='navToggleBtn' />
           <Navbar.Offcanvas
-            id={`offcanvasNavbar-expand-sm`}
-            aria-labelledby={`offcanvasNavbarLabel-expand-sm`}
+            id={`offcanvasNavbar-expand-lg`}
+            aria-labelledby={`offcanvasNavbarLabel-expand-lg`}
             placement='end'
           >
             <Offcanvas.Header closeButton>
-              <Offcanvas.Title id={`offcanvasNavbarLabel-expand-sm`}>Bravery</Offcanvas.Title>
+              <Offcanvas.Title id={`offcanvasNavbarLabel-expand-lg`}>Bravery</Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className='ms-auto justify-content-end flex-grow-1'>
@@ -92,7 +92,7 @@ const Header = (props) => {
                   <NavDropdown
                     title={<img src={auth?.user?.profile?.avatar} alt='avatar' />}
                     className='profile'
-                    id={`offcanvasNavbarDropdown-expand-sm`}
+                    id={`offcanvasNavbarDropdown-expand-lg`}
                   >
                     <NavDropdown.Item onClick={getUserData}> Edit Profile </NavDropdown.Item>
                     <NavDropdown.Item onClick={logout}> Logout </NavDropdown.Item>

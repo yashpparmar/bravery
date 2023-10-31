@@ -45,6 +45,10 @@
       background: #ffffff;
       --bs-card-cap-bg: rgb(0, 0, 0, 0);
 
+      @media (max-width: $layout-breakpoint-laptop) {
+        min-width: 100%;
+      }
+
       @media (max-width: $layout-breakpoint-tablets) {
         min-width: 100%;
       }

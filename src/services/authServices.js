@@ -1,4 +1,5 @@
 import jwt_decode from "jwt-decode";
+import {toast} from "react-toastify";
 import {
   clearAuthResponse,
   setAuthLoader,
@@ -14,7 +15,6 @@ import {
 } from "../common/helpers/localStorage";
 import {axiosInstance} from "./apiInteraction";
 import {endPoints} from "./apiEndPoints";
-import {toast} from "react-toastify";
 
 const setLoginSession = (userData) => async (dispatch, getState) => {
   try {
@@ -97,13 +97,12 @@ export const getUser = () => async (dispatch, getState) => {
   try {
     dispatch(setAuthLoader(true));
     const response = await axiosInstance.get(endPoints.getUser);
-    const {data, status} = response;
-    if (status === 200 && data.code === 200) {
-      dispatch(setCurrentUser(data.user));
+    if (response.status === 200 && response.data.code === 200) {
+      dispatch(setCurrentUser(response.data.user));
       dispatch(setAuthResponseSuccess("User get successfully."));
     } else {
-      toast.error(`Error when getting user: ${status} ` || "Something went wrong!");
-      dispatchAuthError(data.data.message || "Login error", dispatch);
+      toast.error(`Error when getting user: ${response.status} ` || "Something went wrong!");
+      dispatchAuthError(response.data.data.message || "Login error", dispatch);
     }
   } catch (error) {
     if (error.code === 401) {

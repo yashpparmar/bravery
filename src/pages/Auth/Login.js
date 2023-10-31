@@ -74,7 +74,7 @@ const Login = ({auth, login}) => {
       </ToastContainer>
       <Container className='card-container'>
         <Row className='align-items-center w-100'>
-          <Col sm='0' lg>
+          <Col sm='0' md>
             <div className='text-info'>
               <h1>Sign into Bravery Direct</h1>
               <p>
@@ -83,7 +83,7 @@ const Login = ({auth, login}) => {
               </p>
             </div>
           </Col>
-          <Col sm='12' lg>
+          <Col sm='12' md>
             <div className='d-flex align-items-center justify-content-center flex-column'>
               <h2>Login to BRAVERY!</h2>
               <Card body className='login-card'>
