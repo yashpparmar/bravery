@@ -108,7 +108,12 @@ const Login = ({auth, login}) => {
                       onChange={onChangeFormData}
                     />
                   </Form.Group>
-                  <Button className='login-btn my-3' variant='primary' type='submit'>
+                  <Button
+                    className='login-btn my-3'
+                    variant='primary'
+                    type='submit'
+                    disabled={auth.isLoading}
+                  >
                     Login
                   </Button>
                 </Form>

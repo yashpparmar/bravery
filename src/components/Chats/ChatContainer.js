@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {useCallback, useRef} from "react";
 import {Button, Form, InputGroup} from "react-bootstrap";
 import {connect} from "react-redux";
 import {sendMessage} from "../../services/chatServices";

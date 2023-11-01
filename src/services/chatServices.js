@@ -10,7 +10,6 @@ import {
 } from "../redux/actions/chatActions";
 
 export const getSocket = (_id) => async (dispatch, getState) => {
-  console.log(_id);
   if (_id) {
     try {
       dispatch(setChatLoader(true));
@@ -38,7 +37,6 @@ export const addMessageToConversation = (data) => async (dispatch, getState) => 
     }
     return [...a, v];
   }, []);
-  console.log("conversations", updatedConversations);
   dispatch(setConversations(updatedConversations));
 };
 
@@ -58,7 +56,6 @@ export const sendMessage = (msg, selectedConversationId) => async (dispatch, get
         alert(JSON.stringify(err));
         console.log(err);
       }
-      console.log(res);
       dispatch(addMessageToConversation(res));
     },
   );
@@ -83,7 +80,6 @@ export const addToChat = (_id) => async (dispatch, getState) => {
         );
         const newConversations = [...chat.data.conversations, res];
         dispatch(setContacts(contacts));
-        console.log("addToChat", newConversations);
         dispatch(setConversations(newConversations));
       }
     },
@@ -109,7 +105,6 @@ export const createChat = () => async (dispatch, getState) => {
         (contact) => !res.members.findIndex((item) => item._id === contact._id),
       );
       dispatch(setContacts(newContacts));
-      console.log("createChat", {res}, {chat});
       dispatch(setConversations([...chat.data.conversations, res]));
     }
   });
@@ -124,7 +119,6 @@ export const getContacts = () => async (dispatch, getState) => {
       alert(JSON.stringify(err));
     }
     dispatch(setContacts(res.users));
-    console.log("getContacts", res.chats);
     dispatch(setConversations(res.chats));
   });
 };

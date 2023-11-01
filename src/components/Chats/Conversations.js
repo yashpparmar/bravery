@@ -1,10 +1,9 @@
 import React from "react";
 import {ListGroup} from "react-bootstrap";
-import {connect, useDispatch} from "react-redux";
+import {connect} from "react-redux";
 import {setSelectedConversationsId} from "../../redux/actions/chatActions";
 
 const Conversations = ({chat, setSelectedConversationsId}) => {
-  // const dispatch = useDispatch();
   const {conversations, notifications, selectedConversationId} = chat;
   return (
     <ListGroup variant='flush'>
