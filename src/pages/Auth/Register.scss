@@ -1,4 +1,4 @@
-@import "../../styles/variables.scss";
+@import "../../styles/variables";
 
 $layout-breakpoint-mobile: 480px;
 $layout-breakpoint-tablets: 768px;
@@ -25,7 +25,7 @@ $layout-breakpoint-laptop: 1024px;
     min-width: 40rem;
     height: auto;
     height: auto;
-    transition: 0.4s;
+    transition: 0.3s ease;
     border: 0;
     border-radius: 15px;
     background: #fff;
@@ -47,33 +47,31 @@ $layout-breakpoint-laptop: 1024px;
       padding: 0;
       position: relative;
       border-radius: 50%;
+      .avatar {
+        label {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          background-color: rgba(0, 0, 0, 0.5);
+          transition: opacity 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          cursor: pointer;
+          position: absolute;
+          top: 0;
+          color: $light;
+          &:hover {
+            opacity: 1;
+          }
+        }
+      }
       img {
         border: 1px solid #808080;
         height: 171px;
         width: 171px;
-      }
-      .overlay {
-        position: absolute;
-        border-radius: 50%;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        opacity: 0;
-        transition: opacity 0.5s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        label {
-          cursor: pointer;
-        }
-      }
-      &:hover {
-        .overlay {
-          opacity: 1;
-        }
+        object-fit: cover;
       }
     }
     .register-btn {

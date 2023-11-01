@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Carattere&display=swap");
 @import "bootstrap";
-@import "./variables.scss";
+@import "./variables";
 
 :root {
   --white: #ffffff;
@@ -76,7 +76,7 @@ body {
     position: fixed;
     bottom: 0;
     background: rgba(0, 0, 0, 0.2);
-    padding: 9px 20px;
+    // padding: 9px 20px;
     font-weight: bolder;
     width: 100%;
     text-align: center;

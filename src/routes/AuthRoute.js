@@ -1,11 +1,11 @@
-import React, {memo} from "react";
+import React from "react";
 import {Navigate} from "react-router-dom";
 import PropTypes from "prop-types";
-import {getLocalUserDetails} from "../common/helpers/localStorage";
+import {getLocalAuthToken} from "../common/helpers/localStorage";
 
-const AuthRoute = (props) => {
-  const isAuthenticated = !!getLocalUserDetails();
-  return isAuthenticated ? <Navigate to='/user/dashboard' /> : props.element;
+const AuthRoute = ({element}) => {
+  const token = getLocalAuthToken();
+  return !!token ? <Navigate to='/user/dashboard' /> : element;
 };
 
 AuthRoute.defaultProps = {
@@ -16,4 +16,4 @@ AuthRoute.propTypes = {
   element: PropTypes.element,
 };
 
-export default memo(AuthRoute);
+export default AuthRoute;

@@ -5,12 +5,11 @@ import {Link, useNavigate} from "react-router-dom";
 import {connect} from "react-redux";
 import {isEmail, isEmpty, isPassword} from "../../common/common";
 import {login} from "../../services/authServices";
-import AlertBox from "../../components/AlertBox";
+import AlertBox from "../../components/AlertBox/AlertBox";
 import "./Login.scss";
 
 const Login = ({auth, login}) => {
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -53,7 +52,6 @@ const Login = ({auth, login}) => {
         });
         setToast(true);
         navigate("/user/dashboard");
-
         // setAlert({ show: true, message: auth.resSuccess, variant: 'success' })
       } else {
         setAlert({show: true, message: auth.resError || result.data.message, variant: "danger"});
@@ -76,7 +74,7 @@ const Login = ({auth, login}) => {
       </ToastContainer>
       <Container className='card-container'>
         <Row className='align-items-center w-100'>
-          <Col sm='0' lg>
+          <Col sm='0' md>
             <div className='text-info'>
               <h1>Sign into Bravery Direct</h1>
               <p>
@@ -85,7 +83,7 @@ const Login = ({auth, login}) => {
               </p>
             </div>
           </Col>
-          <Col sm='12' lg>
+          <Col sm='12' md>
             <div className='d-flex align-items-center justify-content-center flex-column'>
               <h2>Login to BRAVERY!</h2>
               <Card body className='login-card'>
@@ -95,8 +93,9 @@ const Login = ({auth, login}) => {
                     <Form.Label>Email</Form.Label>
                     <Form.Control
                       type='email'
-                      placeholder='Enter email'
+                      placeholder='Enter Email'
                       value={email}
+                      autoComplete='on'
                       onChange={onChangeFormData}
                     />
                   </Form.Group>
@@ -109,7 +108,12 @@ const Login = ({auth, login}) => {
                       onChange={onChangeFormData}
                     />
                   </Form.Group>
-                  <Button className='login-btn my-3' variant='primary' type='submit'>
+                  <Button
+                    className='login-btn my-3'
+                    variant='primary'
+                    type='submit'
+                    disabled={auth.isLoading}
+                  >
                     Login
                   </Button>
                 </Form>

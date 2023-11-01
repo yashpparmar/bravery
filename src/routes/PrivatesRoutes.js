@@ -1,27 +1,23 @@
-import React, {memo, useEffect} from "react";
-import PropTypes from "prop-types";
+import React, {memo} from "react";
 import {Navigate} from "react-router-dom";
 import {connect} from "react-redux";
+import PropTypes from "prop-types";
 import {getUser} from "../services/authServices";
-import {getLocalUserDetails} from "../common/helpers/localStorage";
+import {getLocalAuthToken} from "../common/helpers/localStorage";
 
-const PrivatesRoutes = ({element, auth, getUser}) => {
-  const localAuth = !!getLocalUserDetails();
-
-  useEffect(() => {
-    function fetchData() {
-      if (localAuth) {
-        // Only call getUser() if auth.isAuthenticated is false
-        if (auth && !auth.isAuthenticated) {
-          getUser();
-        }
-      }
+const PrivatesRoutes = ({element, user, getUser}) => {
+  const token = getLocalAuthToken();
+  if (!!token) {
+    // Only call getUser() if auth.isAuthenticated is false
+    if (!user.email) {
+      getUser();
+      return element;
+    } else {
+      return element;
     }
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return localAuth ? element : <Navigate to={"/auth/login"} />;
+  } else {
+    return <Navigate to='/auth/login' />;
+  }
 };
 
 PrivatesRoutes.defaultProps = {
@@ -32,7 +28,7 @@ PrivatesRoutes.propsTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
+  user: state.auth.user,
 });
 
 export default connect(mapStateToProps, {getUser})(memo(PrivatesRoutes));

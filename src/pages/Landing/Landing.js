@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../../components/Header";
+import Header from "../../components/Header/Header";
 import {landingRoutes} from "../../routes/MenuLists/landingRoutes";
 import {LayoutContainer, SectionWrapper, SiteContainer} from "../../layouts/Layout";
 import "./Landing.scss";
