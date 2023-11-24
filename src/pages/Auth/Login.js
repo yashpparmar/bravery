@@ -1,9 +1,8 @@
 import React, {useState} from "react";
 import {Button, Card, Col, Container, Form, Row, Toast, ToastContainer} from "react-bootstrap";
-
 import {Link, useNavigate} from "react-router-dom";
+import { useForm } from "react-hook-form";
 import {connect} from "react-redux";
-import {isEmail, isEmpty, isPassword} from "../../common/common";
 import {login} from "../../services/authServices";
 import AlertBox from "../../components/AlertBox";
 import "./Login.scss";
@@ -11,10 +10,17 @@ import "./Login.scss";
 const Login = ({auth, login}) => {
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    reset, 
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  })
 
   const [alert, setAlert] = useState({
     show: false,
@@ -24,44 +30,17 @@ const Login = ({auth, login}) => {
 
   const [toast, setToast] = useState(false);
 
-  const onChangeFormData = (e) => {
-    const {id, value} = e.target;
-    setFormData((prev) => ({...prev, [id]: value}));
-  };
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    let error = "";
-    if (isEmpty(formData.email)) {
-      error = "Email is required!";
-    } else if (!isEmail(formData.email)) {
-      error = "Not valid email";
-    } else if (isEmpty(formData.password)) {
-      error = "Password is required!";
-    } else if (!isPassword(password)) {
-      error = "Password should be 8 characters minimum";
-    }
-
-    if (!isEmpty(error)) {
-      setAlert({show: true, message: error, variant: "danger"});
-    } else {
-      const result = await login(formData);
-      if (result.code === 200) {
-        setFormData({
-          email: "",
-          password: "",
-        });
+  const handleFormSubmit = async (data) => {
+      const result = await login(data);
+      if (result && result.code === 200) {
+        reset();
         setToast(true);
         navigate("/user/dashboard");
-
         // setAlert({ show: true, message: auth.resSuccess, variant: 'success' })
       } else {
         setAlert({show: true, message: auth.resError || result.data.message, variant: "danger"});
       }
-    }
   };
-
-  const {email, password} = formData;
 
   return (
     <Container fluid className='login'>
@@ -90,24 +69,33 @@ const Login = ({auth, login}) => {
               <h2>Login to BRAVERY!</h2>
               <Card body className='login-card'>
                 <AlertBox alert={alert} setAlert={setAlert} />
-                <Form className='login-form' onSubmit={handleFormSubmit}>
+                <Form className='login-form' onSubmit={handleSubmit(handleFormSubmit)}>
                   <Form.Group className='my-3' controlId='email'>
                     <Form.Label>Email</Form.Label>
                     <Form.Control
                       type='email'
-                      placeholder='Enter email'
-                      value={email}
-                      onChange={onChangeFormData}
+                      placeholder='Email'
+                      autoComplete='on'
+                      {...register("email",  { required: "This is required.", pattern: {
+                        value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                        message: "Invalid email."
+                      }})}
                     />
+                    {errors.email && errors.password.type === "required" && <span className="fs-6 text-danger"> <i className="bi bi-exclamation"></i> {errors.email.message}</span>}
+                    {errors.email && errors.password.type === "pattern" && <span className="fs-6 text-danger"> <i className="bi bi-exclamation"></i> {errors.email.message}</span>}
                   </Form.Group>
                   <Form.Group className='my-3' controlId='password'>
                     <Form.Label>Password</Form.Label>
                     <Form.Control
                       type='password'
                       placeholder='Password'
-                      value={password}
-                      onChange={onChangeFormData}
+                      {...register("password",  { required: "This is required.", minLength: {
+                        value: 8,
+                        message: "Minimum length is 8.",
+                      }})}
                     />
+                    {errors.password && errors.password.type === "required" && <span className="fs-6 text-danger"> <i className="bi bi-exclamation"></i> {errors.password.message}</span>}
+                    {errors.password && errors.password.type === "minLength" && <span className="fs-6 text-danger"> <i className="bi bi-exclamation"></i> {errors.password.message}</span>}
                   </Form.Group>
                   <Button className='login-btn my-3' variant='primary' type='submit'>
                     Login
