@@ -53,6 +53,16 @@
         min-width: 100%;
       }
 
+      .login-form{
+        .form-label{
+          &::after{
+            content: "*";
+            color: rgb(239 68 68);
+            margin-left: 0.1rem;
+          }
+        }
+      }
+
       &:hover {
         transform: scale(1.03, 1.03);
         box-sizing: border-box;
