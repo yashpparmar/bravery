@@ -1,8 +1,8 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import {getLocalAuthToken} from "../common/helpers/localStorage";
+import {deleteAllLocalData, getLocalAuthToken} from "../common/helpers/localStorage";
 
-const setupToken = () => {
+export const setupToken = () => {
   const authToken = getLocalAuthToken();
 
   if (authToken) {
@@ -10,11 +10,10 @@ const setupToken = () => {
     const currentTime = Date.now() / 1000;
     if (decoded.exp > currentTime) {
       setHeadersAuthToken(authToken);
-
-      //   return authData;
+      return authToken;
     }
   }
-  //   return false; // if no token or expired token, return false
+  return false; // if no token or expired token, return false
 };
 
 export const setHeadersAuthToken = (token) => {
@@ -42,7 +41,8 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (error.response.status === 401) {
       clearHeadersAuthToken();
-      window.location.assign("/login");
+      deleteAllLocalData();
+      window.location.assign("/auth/login");
     }
     return Promise.reject(error.response.data);
   },

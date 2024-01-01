@@ -7,14 +7,14 @@ export const userDashBoardRoutes = [
   },
   {
     id: 2,
-    route: "user/view-complaint",
+    route: "user/view-complaints",
     text: "View Complaints",
     isInSamePage: false,
   },
   {
     id: 3,
-    route: "user/register-complaint",
-    text: "Register Complaint",
+    route: "user/register-complaints",
+    text: "Register Complaints",
     isInSamePage: false,
   },
   {

@@ -4,8 +4,8 @@ const initialState = {
   isAuthenticated: false,
   user: {},
   isLoading: false,
-  resError: "",
-  resSuccess: "",
+  resError: undefined,
+  resSuccess: undefined,
 };
 
 export const authReducer = (state = initialState, action) => {

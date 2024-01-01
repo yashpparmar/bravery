@@ -4,23 +4,16 @@ import {Link, useNavigate} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {connect} from "react-redux";
 import {login} from "../../services/authServices";
-import AlertBox from "../../components/AlertBox";
+import AlertBox from "../../components/AlertBox/AlertBox";
 import "./Login.scss";
 
 const Login = ({auth, login}) => {
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-  const {
-    register,
-    handleSubmit,
-    reset, 
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  })
 
   const [alert, setAlert] = useState({
     show: false,
@@ -55,7 +48,7 @@ const Login = ({auth, login}) => {
       </ToastContainer>
       <Container className='card-container'>
         <Row className='align-items-center w-100'>
-          <Col sm='0' lg>
+          <Col sm='0' md>
             <div className='text-info'>
               <h1>Sign into Bravery Direct</h1>
               <p>
@@ -64,7 +57,7 @@ const Login = ({auth, login}) => {
               </p>
             </div>
           </Col>
-          <Col sm='12' lg>
+          <Col sm='12' md>
             <div className='d-flex align-items-center justify-content-center flex-column'>
               <h2>Login to BRAVERY!</h2>
               <Card body className='login-card'>
@@ -74,12 +67,11 @@ const Login = ({auth, login}) => {
                     <Form.Label>Email</Form.Label>
                     <Form.Control
                       type='email'
-                      placeholder='Email'
+                      placeholder='Enter Email'
+                      value={email}
                       autoComplete='on'
-                      {...register("email",  { required: "This is required.", pattern: {
-                        value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                        message: "Invalid email."
-                      }})}
+                      onChange={onChangeFormData}
+
                     />
                     {errors.email && errors.password.type === "required" && <span className="fs-6 text-danger"> <i className="bi bi-exclamation"></i> {errors.email.message}</span>}
                     {errors.email && errors.password.type === "pattern" && <span className="fs-6 text-danger"> <i className="bi bi-exclamation"></i> {errors.email.message}</span>}
@@ -97,7 +89,12 @@ const Login = ({auth, login}) => {
                     {errors.password && errors.password.type === "required" && <span className="fs-6 text-danger"> <i className="bi bi-exclamation"></i> {errors.password.message}</span>}
                     {errors.password && errors.password.type === "minLength" && <span className="fs-6 text-danger"> <i className="bi bi-exclamation"></i> {errors.password.message}</span>}
                   </Form.Group>
-                  <Button className='login-btn my-3' variant='primary' type='submit'>
+                  <Button
+                    className='login-btn my-3'
+                    variant='primary'
+                    type='submit'
+                    disabled={auth.isLoading}
+                  >
                     Login
                   </Button>
                 </Form>
