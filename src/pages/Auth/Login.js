@@ -9,10 +9,17 @@ import "./Login.scss";
 
 const Login = ({auth, login}) => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    reset, 
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  })
 
 
   const [alert, setAlert] = useState({
@@ -67,11 +74,12 @@ const Login = ({auth, login}) => {
                     <Form.Label>Email</Form.Label>
                     <Form.Control
                       type='email'
-                      placeholder='Enter Email'
-                      value={email}
+                      placeholder='Email'
                       autoComplete='on'
-                      onChange={onChangeFormData}
-
+                      {...register("email",  { required: "This is required.", pattern: {
+                        value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                        message: "Invalid email."
+                      }})}
                     />
                     {errors.email && errors.password.type === "required" && <span className="fs-6 text-danger"> <i className="bi bi-exclamation"></i> {errors.email.message}</span>}
                     {errors.email && errors.password.type === "pattern" && <span className="fs-6 text-danger"> <i className="bi bi-exclamation"></i> {errors.email.message}</span>}
