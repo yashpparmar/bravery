@@ -1,9 +1,10 @@
 import React, {useState} from "react";
 import {Button, Card, Col, Container, Form, Row, Toast, ToastContainer} from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
-import { useForm } from "react-hook-form";
+import {useForm} from "react-hook-form";
 import {connect} from "react-redux";
 import {login} from "../../services/authServices";
+import {emailRegEx} from "../../common/common";
 import AlertBox from "../../components/AlertBox/AlertBox";
 import "./Login.scss";
 
@@ -12,16 +13,14 @@ const Login = ({auth, login}) => {
   const {
     register,
     handleSubmit,
-    reset, 
-    formState: { errors },
+    reset,
+    formState: {errors},
   } = useForm({
     defaultValues: {
       email: "",
       password: "",
     },
-  })
-
-
+  });
   const [alert, setAlert] = useState({
     show: false,
     variant: "danger",
@@ -31,15 +30,15 @@ const Login = ({auth, login}) => {
   const [toast, setToast] = useState(false);
 
   const handleFormSubmit = async (data) => {
-      const result = await login(data);
-      if (result && result.code === 200) {
-        reset();
-        setToast(true);
-        navigate("/user/dashboard");
-        // setAlert({ show: true, message: auth.resSuccess, variant: 'success' })
-      } else {
-        setAlert({show: true, message: auth.resError || result.data.message, variant: "danger"});
-      }
+    const result = await login(data);
+    if (result && result.code === 200) {
+      reset();
+      setToast(true);
+      navigate("/user/dashboard");
+    } else {
+      setAlert({show: true, message: auth.resError || result.data.message, variant: "danger"});
+      reset();
+    }
   };
 
   return (
@@ -55,7 +54,7 @@ const Login = ({auth, login}) => {
       </ToastContainer>
       <Container className='card-container'>
         <Row className='align-items-center w-100'>
-          <Col sm='0' md>
+          <Col sm='0' lg>
             <div className='text-info'>
               <h1>Sign into Bravery Direct</h1>
               <p>
@@ -64,7 +63,7 @@ const Login = ({auth, login}) => {
               </p>
             </div>
           </Col>
-          <Col sm='12' md>
+          <Col sm='12' lg>
             <div className='d-flex align-items-center justify-content-center flex-column'>
               <h2>Login to BRAVERY!</h2>
               <Card body className='login-card'>
@@ -76,33 +75,54 @@ const Login = ({auth, login}) => {
                       type='email'
                       placeholder='Email'
                       autoComplete='on'
-                      {...register("email",  { required: "This is required.", pattern: {
-                        value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                        message: "Invalid email."
-                      }})}
+                      {...register("email", {
+                        required: "This is required.",
+                        pattern: {
+                          value: emailRegEx,
+                          message: "Invalid email.",
+                        },
+                      })}
                     />
-                    {errors.email && errors.password.type === "required" && <span className="fs-6 text-danger"> <i className="bi bi-exclamation"></i> {errors.email.message}</span>}
-                    {errors.email && errors.password.type === "pattern" && <span className="fs-6 text-danger"> <i className="bi bi-exclamation"></i> {errors.email.message}</span>}
+                    {errors.email && errors.email.type === "required" && (
+                      <span className='fs-6 text-danger ms-1'>
+                        <i className='fa-solid fa-circle-exclamation fa-xs pe-1'></i>
+                        {errors.email.message}
+                      </span>
+                    )}
+                    {errors.email && errors.email.type === "pattern" && (
+                      <span className='fs-6 text-danger ms-1'>
+                        <i className='fa-solid fa-circle-exclamation fa-xs pe-1'></i>
+                        {errors.email.message}
+                      </span>
+                    )}
                   </Form.Group>
                   <Form.Group className='my-3' controlId='password'>
                     <Form.Label>Password</Form.Label>
                     <Form.Control
                       type='password'
                       placeholder='Password'
-                      {...register("password",  { required: "This is required.", minLength: {
-                        value: 8,
-                        message: "Minimum length is 8.",
-                      }})}
+                      {...register("password", {
+                        required: "This is required.",
+                        minLength: {
+                          value: 8,
+                          message: "Minimum length is 8.",
+                        },
+                      })}
                     />
-                    {errors.password && errors.password.type === "required" && <span className="fs-6 text-danger"> <i className="bi bi-exclamation"></i> {errors.password.message}</span>}
-                    {errors.password && errors.password.type === "minLength" && <span className="fs-6 text-danger"> <i className="bi bi-exclamation"></i> {errors.password.message}</span>}
+                    {errors.password && errors.password.type === "required" && (
+                      <span className='fs-6 text-danger ms-1'>
+                        <i className='fa-solid fa-circle-exclamation fa-xs pe-1'></i>
+                        {errors.password.message}
+                      </span>
+                    )}
+                    {errors.password && errors.password.type === "minLength" && (
+                      <span className='fs-6 text-danger ms-1'>
+                        <i className='fa-solid fa-circle-exclamation fa-xs pe-1'></i>
+                        {errors.password.message}
+                      </span>
+                    )}
                   </Form.Group>
-                  <Button
-                    className='login-btn my-3'
-                    variant='primary'
-                    type='submit'
-                    disabled={auth.isLoading}
-                  >
+                  <Button className='login-btn my-3' variant='primary' type='submit'>
                     Login
                   </Button>
                 </Form>

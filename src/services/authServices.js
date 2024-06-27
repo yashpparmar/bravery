@@ -50,10 +50,8 @@ export const register = (obj) => async (dispatch, getState) => {
       // const headers = {"Content-Type": "multipart/form-data"};
 
       dispatch(setAuthLoader(true));
-
       const response = await axiosInstance.post(endPoints.register, body);
-      const {status} = response;
-      if (status === 200) {
+      if (response && response.status === 200) {
         dispatch(setAuthResponseSuccess("User registered successfully."));
       }
       return response;

@@ -40,6 +40,9 @@ export function isEmail(value) {
   return isValid ? true : false;
 }
 
+export const emailRegEx =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 /**
  * @desc Checks for Empty string
  * @param {*} value // Accepts string, object
@@ -215,12 +218,11 @@ export const getNestedError = (error) => {
 };
 
 export const getAPIResponseError = (e) => {
-  if (e) {
-    if (e.response && e.response.data) {
-      if (e.response.data.message) {
-        return e.response.data.message;
-      }
-    }
+  if (e?.message) {
+    return e.message;
+  }
+  if (e?.data?.message) {
+    return e.data.message;
   }
   return;
 };
