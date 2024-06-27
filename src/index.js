@@ -1,8 +1,9 @@
 import React, {Suspense, lazy} from "react";
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
-import "./styles/main.scss";
 import Loading from "./components/Loading/Loading";
+import "./styles/main.scss";
+
 const App = lazy(() => import("./App"));
 
 const rootElement = document.getElementById("root");
@@ -11,7 +12,6 @@ root.render(
   <React.StrictMode>
     <Suspense fallback={<Loading />}>
       <App />
-      <div className='development'>This version is in development</div>
     </Suspense>
   </React.StrictMode>,
 );
