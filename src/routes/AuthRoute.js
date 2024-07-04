@@ -5,7 +5,7 @@ import {getLocalAuthToken} from "../common/helpers/localStorage";
 
 const AuthRoute = ({element}) => {
   const token = getLocalAuthToken();
-  return !!token ? <Navigate to='/user/dashboard' /> : element;
+  return token ? <Navigate to='/user/dashboard' /> : element;
 };
 
 AuthRoute.defaultProps = {

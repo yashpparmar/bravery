@@ -164,7 +164,9 @@ export function mathRound(number, digit = 2) {
   try {
     if (Number(number) < 1) digit = 3;
     if (number) return Number(number).toFixed(digit);
-  } catch (e) {}
+  } catch (e) {
+    console.log(e);
+  }
   return Number(0).toFixed(2);
 }
 

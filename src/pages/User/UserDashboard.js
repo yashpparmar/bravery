@@ -1,7 +1,7 @@
-import React from "react";
 import {connect} from "react-redux";
 
 const UserDashboard = ({auth}) => {
+  console.log(auth);
   return <div>UserDashboard</div>;
 };
 

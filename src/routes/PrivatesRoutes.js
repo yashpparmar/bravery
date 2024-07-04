@@ -7,7 +7,7 @@ import {getLocalAuthToken} from "../common/helpers/localStorage";
 
 const PrivatesRoutes = ({element, user, getUser}) => {
   const token = getLocalAuthToken();
-  if (!!token) {
+  if (token) {
     // Only call getUser() if auth.isAuthenticated is false
     if (!user.email) {
       getUser();
