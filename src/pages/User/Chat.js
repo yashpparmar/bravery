@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import {useEffect} from "react";
 import {connect} from "react-redux";
 import {ChatContainer, Sidebar} from "../../components/Chats";
 import {

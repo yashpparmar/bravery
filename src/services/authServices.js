@@ -16,7 +16,7 @@ import {
 import {axiosInstance} from "./apiInteraction";
 import {endPoints} from "./apiEndPoints";
 
-const setLoginSession = (userData) => async (dispatch, getState) => {
+const setLoginSession = (userData) => async (dispatch) => {
   try {
     saveLocalAuthToken(userData.token);
     // Decode token to get user data
@@ -30,10 +30,12 @@ const setLoginSession = (userData) => async (dispatch, getState) => {
 
     // Set current user
     dispatch(setCurrentUser(userData));
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-export const register = (obj) => async (dispatch, getState) => {
+export const register = (obj) => async (dispatch) => {
   try {
     dispatch(clearAuthResponse());
     if (!obj) {
@@ -67,7 +69,7 @@ export const register = (obj) => async (dispatch, getState) => {
   }
 };
 
-export const login = (obj) => async (dispatch, getState) => {
+export const login = (obj) => async (dispatch) => {
   try {
     dispatch(clearAuthResponse());
     if (!obj) {
@@ -91,7 +93,7 @@ export const login = (obj) => async (dispatch, getState) => {
   }
 };
 
-export const getUser = () => async (dispatch, getState) => {
+export const getUser = () => async (dispatch) => {
   try {
     dispatch(setAuthLoader(true));
     const response = await axiosInstance.get(endPoints.getUser);
@@ -99,7 +101,10 @@ export const getUser = () => async (dispatch, getState) => {
       dispatch(setCurrentUser(response.data.user));
       dispatch(setAuthResponseSuccess("User get successfully."));
     } else {
-      toast.error(`Error when getting user: ${response.status} ` || "Something went wrong!");
+      toast.error(
+        (response.status && `Error when getting user: ${response.status} `) ||
+          "Something went wrong!",
+      );
       dispatchAuthError(response.data.data.message || "Login error", dispatch);
     }
   } catch (error) {

@@ -9,7 +9,7 @@ import {
   setSocket,
 } from "../redux/actions/chatActions";
 
-export const getSocket = (_id) => async (dispatch, getState) => {
+export const getSocket = (_id) => async (dispatch) => {
   if (_id) {
     try {
       dispatch(setChatLoader(true));

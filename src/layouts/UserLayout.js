@@ -1,4 +1,3 @@
-import React from "react";
 import {Navigate, Route, Routes} from "react-router-dom";
 import {userDashBoardRoutes} from "../routes/MenuLists/userDashBoardRoutes";
 import PrivatesRoutes from "../routes/PrivatesRoutes";

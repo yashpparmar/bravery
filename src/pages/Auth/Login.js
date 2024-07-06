@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import {Button, Card, Col, Container, Form, Row, Toast, ToastContainer} from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
@@ -58,7 +58,7 @@ const Login = ({auth, login}) => {
             <div className='text-info'>
               <h1>Sign into Bravery Direct</h1>
               <p>
-                If you don't have a account you can&nbsp;
+                If you don&apos;t have a account you can&nbsp;
                 <Link to={"/auth/register"}>Register here!</Link>
               </p>
             </div>

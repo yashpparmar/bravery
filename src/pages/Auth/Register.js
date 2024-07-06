@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {Button, Card, Col, Container, Form, Image, Row} from "react-bootstrap";
 import {connect} from "react-redux";
 import {useForm} from "react-hook-form";
@@ -55,8 +55,8 @@ const Register = ({registerServices, clearAuthResponse}) => {
     return () => {
       clearAuthResponse();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files]);
+
   const handleFormSubmit = async (formData) => {
     if (formData.avatar === null && formData.fullName !== "") {
       formData["avatar"] = await createImageFromInitials(100, formData.fullName, getRandomColor());

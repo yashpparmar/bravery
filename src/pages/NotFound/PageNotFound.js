@@ -1,4 +1,3 @@
-import React from "react";
 import {Link} from "react-router-dom";
 import {LayoutContainer, SectionWrapper, SiteContainer} from "../../layouts/Layout";
 import Header from "../../components/Header/Header";
