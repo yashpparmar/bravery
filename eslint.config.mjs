@@ -1,11 +1,12 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
 import eslintPluginReactConfig from "eslint-plugin-react/configs/recommended.js";
+import eslintPluginReactHooks from "eslint-plugin-react-hooks";
 import eslintConfigPrettier from "eslint-config-prettier";
-import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
+import eslintPluginPrettier from "eslint-plugin-prettier/recommended";
 
 export default [
-  {ignores: ["node_modules/", "**/*.test.js"]},
+  {ignores: ["node_modules/", "build/", "dist/"]},
   {files: ["**/*.{js,mjs,cjs,jsx}"]},
   {
     languageOptions: {
@@ -16,7 +17,13 @@ export default [
   pluginJs.configs.recommended,
   eslintPluginReactConfig,
   eslintConfigPrettier,
-  eslintPluginPrettierRecommended,
+  eslintPluginPrettier,
+  {
+    plugins: {
+      "react-hooks": eslintPluginReactHooks,
+    },
+    rules: eslintPluginReactHooks.configs.recommended.rules,
+  },
   {
     rules: {
       "no-undef": "off",
@@ -24,6 +31,7 @@ export default [
       "prettier/prettier": "warn",
       "react/prop-types": "off",
       "react/react-in-jsx-scope": "off",
+      "react-hooks/exhaustive-deps": "off",
     },
   },
   {
