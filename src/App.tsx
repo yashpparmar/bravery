@@ -14,18 +14,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route index element={<Landing />} />
-
           {/* Auth Routes */}
           <Route path='auth/*' element={<AuthLayout />} />
-
           {/* User Routes */}
           <Route path='user/*' element={<UserLayout />} />
-
+          {/* Not Found */}
           <Route path='*' element={<PageNotFound />} />
-
-          {/* {routes.map((route, i) => {
-            return <Route key={i} {...route} />;
-          })} */}
         </Routes>
       </BrowserRouter>
     </Provider>

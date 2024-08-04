@@ -1,3 +1,4 @@
+import {ReactNode} from "react";
 import {Navigate, Route, Routes} from "react-router-dom";
 import Header from "../components/Header/Header";
 import {authRoutes} from "../routes/MenuLists/authRoutes";
@@ -6,7 +7,7 @@ import Login from "../pages/Auth/Login";
 import AuthRoute from "../routes/AuthRoute";
 import {LayoutContainer, SectionWrapper} from "./Layout";
 
-const AuthLayout = () => {
+const AuthLayout = (): ReactNode => {
   return (
     <AuthRoute
       element={
@@ -15,7 +16,7 @@ const AuthLayout = () => {
           <SectionWrapper>
             <Routes>
               <Route index path='login' element={<Login />} />
-              <Route exact path='register' element={<Register />} />
+              <Route path='register' element={<Register />} />
               <Route path='*' element={<Navigate to='login' />} />
             </Routes>
           </SectionWrapper>

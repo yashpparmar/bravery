@@ -6,7 +6,7 @@ import "./styles/main.scss";
 
 const App = lazy(() => import("./App"));
 
-const rootElement = document.getElementById("root");
+const rootElement = document.getElementById("root") as HTMLElement;
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>

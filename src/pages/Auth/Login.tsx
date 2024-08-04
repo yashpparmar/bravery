@@ -1,21 +1,27 @@
-import {useState} from "react";
+import {FC, useState} from "react";
 import {Button, Card, Col, Container, Form, Row, Toast, ToastContainer} from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
-import {useForm} from "react-hook-form";
-import {connect} from "react-redux";
+import {SubmitHandler, useForm} from "react-hook-form";
+import {connect, ConnectedProps} from "react-redux";
+import {AppState} from "../../redux/reducers";
 import {login} from "../../services/authServices";
 import {emailRegEx} from "../../common/common";
 import AlertBox from "../../components/AlertBox/AlertBox";
 import "./Login.scss";
 
-const Login = ({auth, login}) => {
+export type LoginFormValues = {
+  email: string;
+  password: string;
+};
+
+const Login: FC<PropsFromRedux> = ({auth, login}) => {
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     reset,
     formState: {errors},
-  } = useForm({
+  } = useForm<LoginFormValues>({
     defaultValues: {
       email: "",
       password: "",
@@ -29,7 +35,7 @@ const Login = ({auth, login}) => {
 
   const [toast, setToast] = useState(false);
 
-  const handleFormSubmit = async (data) => {
+  const handleFormSubmit: SubmitHandler<LoginFormValues> = async (data) => {
     const result = await login(data);
     if (result && result.code === 200) {
       reset();
@@ -54,7 +60,7 @@ const Login = ({auth, login}) => {
       </ToastContainer>
       <Container className='card-container'>
         <Row className='align-items-center w-100'>
-          <Col sm='0' lg>
+          <Col sm={0} lg>
             <div className='text-info'>
               <h1>Sign into Bravery Direct</h1>
               <p>
@@ -63,7 +69,7 @@ const Login = ({auth, login}) => {
               </p>
             </div>
           </Col>
-          <Col sm='12' lg>
+          <Col sm={12} lg>
             <div className='d-flex align-items-center justify-content-center flex-column'>
               <h2>Login to BRAVERY!</h2>
               <Card body className='login-card'>
@@ -140,8 +146,9 @@ const Login = ({auth, login}) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppState) => ({
   auth: state.auth,
 });
-
-export default connect(mapStateToProps, {login})(Login);
+const connector = connect(mapStateToProps, {login});
+type PropsFromRedux = ConnectedProps<typeof connector>;
+export default connector(Login);

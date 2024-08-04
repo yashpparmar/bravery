@@ -1,25 +1,42 @@
-import {useEffect, useState} from "react";
+import {FC, useEffect, useState} from "react";
 import {Button, Card, Col, Container, Form, Image, Row} from "react-bootstrap";
-import {connect} from "react-redux";
-import {useForm} from "react-hook-form";
-import AlertBox from "../../components/AlertBox/AlertBox";
+import {connect, ConnectedProps} from "react-redux";
+import {SubmitHandler, useForm} from "react-hook-form";
 import {createImageFromInitials, getRandomColor} from "../../common/utils";
 import {register as registerServices} from "../../services/authServices";
 import {emailRegEx} from "../../common/common";
 import {clearAuthResponse, setAuthResponseSuccess} from "../../redux/actions/authActions";
+import AlertBox from "../../components/AlertBox/AlertBox";
 import "./Register.scss";
+import {hasUncaughtExceptionCaptureCallback} from "process";
 
-const Register = ({registerServices, clearAuthResponse}) => {
+enum GenderEnum {
+  male = "male",
+  female = "female",
+  other = "other",
+}
+export type RegisterFormValues = {
+  fullName: string;
+  gender: GenderEnum;
+  dateOfBirth: string;
+  phoneNumber: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  avatar: any;
+};
+
+const Register: FC<PropsFromRedux> = ({registerServices, clearAuthResponse}) => {
   const {
     register,
     handleSubmit,
     reset,
     watch,
     formState: {errors},
-  } = useForm({
+  } = useForm<RegisterFormValues>({
     defaultValues: {
       fullName: "",
-      gender: "",
+      gender: GenderEnum.male,
       dateOfBirth: "",
       phoneNumber: "",
       email: "",
@@ -28,8 +45,8 @@ const Register = ({registerServices, clearAuthResponse}) => {
       avatar: null,
     },
   });
-  const files = watch("avatar");
-  const [filePreview, setFilePreview] = useState(null);
+  const avatar = watch("avatar");
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
 
   const [alert, setAlert] = useState({
     show: false,
@@ -41,23 +58,23 @@ const Register = ({registerServices, clearAuthResponse}) => {
     return <AlertBox alert={alert} setAlert={setAlert} />;
   };
 
-  const validateDateOfBirth = (value) => {
+  const validateDateOfBirth = (value: string | number | Date) => {
     const selected = new Date(value).getFullYear();
     const now = new Date().getFullYear();
     return now - selected >= 18 || "You must be 18 years or older.";
   };
 
   useEffect(() => {
-    if (files && files.length > 0) {
-      const blob = new Blob([files[0]], {type: files[0].type});
-      setFilePreview(URL.createObjectURL(blob));
+    if (avatar && avatar.length > 0) {
+      const blob = new Blob([avatar[0]], {type: avatar[0].type});
+      setAvatarPreview(URL.createObjectURL(blob));
     }
     return () => {
       clearAuthResponse();
     };
-  }, [files]);
+  }, [avatar]);
 
-  const handleFormSubmit = async (formData) => {
+  const handleFormSubmit: SubmitHandler<RegisterFormValues> = async (formData) => {
     if (formData.avatar === null && formData.fullName !== "") {
       formData["avatar"] = await createImageFromInitials(100, formData.fullName, getRandomColor());
     } else {
@@ -70,7 +87,7 @@ const Register = ({registerServices, clearAuthResponse}) => {
         message: "User registered successfully",
         variant: "success",
       });
-      setFilePreview(null);
+      setAvatarPreview(null);
       reset();
     } else {
       setAlert({show: true, message: result, variant: "danger"});
@@ -90,7 +107,7 @@ const Register = ({registerServices, clearAuthResponse}) => {
                 <div className='profile-container'>
                   <Image
                     alt='Profile Image'
-                    src={filePreview || "/images/vector-users.jpg"}
+                    src={avatarPreview || "/images/vector-users.jpg"}
                     roundedCircle
                   />
                   <Form.Group controlId='avatar' className='avatar mb-0 '>
@@ -130,26 +147,23 @@ const Register = ({registerServices, clearAuthResponse}) => {
                     <Col sm={8}>
                       <Form.Check
                         label='Male'
-                        name='genderRadio'
                         type='radio'
                         id='Male'
-                        value={"male"}
+                        value='male'
                         {...register("gender", {required: "This is Required."})}
                       />
                       <Form.Check
                         label='Female'
-                        name='genderRadio'
                         type='radio'
                         id='Female'
-                        value={"female"}
+                        value='female'
                         {...register("gender", {required: "This is Required."})}
                       />
                       <Form.Check
                         label='Other'
-                        name='genderRadio'
                         type='radio'
                         id='Other'
-                        value={"other"}
+                        value='other'
                         {...register("gender", {required: "This is Required."})}
                       />
                       {errors.gender && errors.gender.type === "required" && (
@@ -305,8 +319,10 @@ const Register = ({registerServices, clearAuthResponse}) => {
   );
 };
 
-export default connect(null, {
+const connector = connect(null, {
   registerServices,
   clearAuthResponse,
   setAuthResponseSuccess,
-})(Register);
+});
+type PropsFromRedux = ConnectedProps<typeof connector>;
+export default connector(Register);

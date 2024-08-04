@@ -1,19 +1,13 @@
-import React from "react";
+import {FC} from "react";
 import {Navigate} from "react-router-dom";
-import PropTypes from "prop-types";
 import {getLocalAuthToken} from "../common/helpers/localStorage";
 
-const AuthRoute = ({element}) => {
+interface IAuthRoute {
+  element: JSX.Element;
+}
+const AuthRoute: FC<IAuthRoute> = ({element}) => {
   const token = getLocalAuthToken();
   return token ? <Navigate to='/user/dashboard' /> : element;
-};
-
-AuthRoute.defaultProps = {
-  element: "",
-};
-
-AuthRoute.propTypes = {
-  element: PropTypes.element,
 };
 
 export default AuthRoute;

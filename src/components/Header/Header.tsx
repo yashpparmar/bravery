@@ -1,19 +1,27 @@
-import {memo, useEffect, useState} from "react";
-import {connect} from "react-redux";
+import {FC, memo, useEffect, useState} from "react";
+import {connect, ConnectedProps} from "react-redux";
 import {Link, useNavigate} from "react-router-dom";
-import PropTypes from "prop-types";
 import classNames from "classnames";
 import {Container, Nav, Navbar} from "react-bootstrap";
 import {Button, Figure, Modal, NavDropdown, Offcanvas} from "react-bootstrap/esm";
 import {deleteAllLocalData} from "../../common/helpers/localStorage";
+import {AppState} from "../../redux/reducers";
 import "./Header.scss";
 
-const Header = (props) => {
-  const {routes, auth} = props;
+type Routes = {
+  id: number;
+  route: string;
+  text: string;
+  isInSamePage: boolean;
+};
+interface IHeader extends PropsFromRedux {
+  routes?: Routes[];
+  isUser?: boolean;
+}
+const Header: FC<IHeader> = ({routes, auth, isUser}) => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-
   const handleScroll = () => {
     setIsScrolled(window.scrollY > 0);
   };
@@ -27,11 +35,11 @@ const Header = (props) => {
 
   const getUserData = () => {
     setShowModal(true);
-    // getUserData here
+    // get user data here
   };
 
-  const editProfile = () => {
-    //EditProfile here
+  const handleEditProfile = () => {
+    // update user profile
     setShowModal(false);
   };
 
@@ -82,13 +90,13 @@ const Header = (props) => {
                         className='menu-link'
                         key={item.id}
                         as={Link}
-                        to={`${item?.isInSamePage ? "#" : "/"}${item?.route}`}
+                        to={item?.isInSamePage ? "#" : item?.route}
                       >
                         {item.text}
                       </Nav.Link>
                     ))
                   : null}
-                {props?.isUser ? (
+                {isUser ? (
                   <NavDropdown
                     title={<img src={auth?.user?.profile?.avatar} alt='avatar' />}
                     className='profile'
@@ -119,7 +127,7 @@ const Header = (props) => {
           <Button variant='secondary' onClick={() => setShowModal(false)}>
             Close
           </Button>
-          <Button variant='primary' onClick={editProfile}>
+          <Button variant='primary' onClick={handleEditProfile}>
             Save Changes
           </Button>
         </Modal.Footer>
@@ -128,17 +136,10 @@ const Header = (props) => {
   );
 };
 
-Header.defaultProps = {
-  routes: [],
-};
-
-Header.propTypes = {
-  routes: PropTypes.array,
-  isUser: PropTypes.bool,
-};
-
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppState) => ({
   auth: state.auth,
 });
+const connector = connect(mapStateToProps, {});
+type PropsFromRedux = ConnectedProps<typeof connector>;
 
-export default connect(mapStateToProps, {})(memo(Header));
+export default connector(memo(Header));

@@ -1,6 +1,20 @@
-import * as Actions from "../actions/actionTypes";
+import {ChatActionTypes} from "../actions/actionTypes";
+import {ChatActions} from "../actions/chatActions";
 
-const initialState = {
+export interface IChatState {
+  isLoading: boolean;
+  socket: object | undefined;
+  data: {
+    contacts: [];
+    conversations: [];
+    notifications: [];
+    selectedConversationId: string | undefined;
+  };
+  resError: string | undefined;
+  resSuccess: string | undefined;
+}
+
+const initialState: IChatState = {
   isLoading: false,
   socket: undefined,
   data: {
@@ -13,14 +27,14 @@ const initialState = {
   resSuccess: undefined,
 };
 
-export const chatReducer = (state = initialState, action) => {
+export const chatReducer = (state = initialState, action: ChatActions) => {
   switch (action.type) {
-    case Actions.SET_SOCKET:
+    case ChatActionTypes.SET_SOCKET:
       return {
         ...state,
         socket: action.payload,
       };
-    case Actions.SET_CONTACTS:
+    case ChatActionTypes.SET_CONTACTS:
       return {
         ...state,
         data: {
@@ -28,7 +42,7 @@ export const chatReducer = (state = initialState, action) => {
           contacts: action.payload,
         },
       };
-    case Actions.SET_CONVERSATIONS:
+    case ChatActionTypes.SET_CONVERSATIONS:
       return {
         ...state,
         data: {
@@ -36,7 +50,7 @@ export const chatReducer = (state = initialState, action) => {
           conversations: action.payload,
         },
       };
-    case Actions.SET_NOTIFICATIONS:
+    case ChatActionTypes.SET_NOTIFICATIONS:
       return {
         ...state,
         data: {
@@ -44,7 +58,7 @@ export const chatReducer = (state = initialState, action) => {
           notifications: action.payload,
         },
       };
-    case Actions.SET_SELECTED_CONVERSATIONS_ID:
+    case ChatActionTypes.SET_SELECTED_CONVERSATIONS_ID:
       return {
         ...state,
         data: {
@@ -52,23 +66,23 @@ export const chatReducer = (state = initialState, action) => {
           selectedConversationId: action.payload,
         },
       };
-    case Actions.SET_CHAT_RES_ERROR:
+    case ChatActionTypes.SET_CHAT_RES_ERROR:
       return {
         ...state,
         resError: action.payload,
       };
-    case Actions.SET_CHAT_RES_SUCCESS:
+    case ChatActionTypes.SET_CHAT_RES_SUCCESS:
       return {
         ...state,
         resSuccess: action.payload,
       };
-    case Actions.CLEAR_CHAT_RES:
+    case ChatActionTypes.CLEAR_CHAT_RES:
       return {
         ...state,
         resError: "",
         resSuccess: "",
       };
-    case Actions.CLEAR_CHAT:
+    case ChatActionTypes.CLEAR_CHAT:
       return initialState;
     default:
       return state;

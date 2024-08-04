@@ -1,14 +1,14 @@
 import axios from "axios";
-import jwt_decode from "jwt-decode";
+import jwtDecode, {JwtPayload} from "jwt-decode";
 import {deleteAllLocalData, getLocalAuthToken} from "../common/helpers/localStorage";
 
 export const setupToken = () => {
   const authToken = getLocalAuthToken();
 
   if (authToken) {
-    const decoded = jwt_decode(authToken);
+    const decoded = jwtDecode<JwtPayload>(authToken);
     const currentTime = Date.now() / 1000;
-    if (decoded.exp > currentTime) {
+    if (decoded.exp! > currentTime) {
       setHeadersAuthToken(authToken);
       return authToken;
     }
@@ -16,20 +16,17 @@ export const setupToken = () => {
   return false; // if no token or expired token, return false
 };
 
-export const setHeadersAuthToken = (token) => {
+export const setHeadersAuthToken = (token: string) => {
   try {
-    let headers = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    };
-    axiosInstance.defaults.headers = headers;
-  } catch (e) {
-    console.log("Error setting up the token.", e);
+    axiosInstance["defaults"]["headers"]["Content-Type"] = "application/json";
+    axiosInstance["defaults"]["headers"]["Authorization"] = `Bearer ${token}`;
+  } catch (error) {
+    console.log("Error setting up the token.", error);
   }
 };
 
 export const clearHeadersAuthToken = () => {
-  delete axiosInstance.defaults.headers;
+  delete axiosInstance["defaults"]["headers"]["Authorization"];
 };
 
 export const axiosInstance = axios.create({

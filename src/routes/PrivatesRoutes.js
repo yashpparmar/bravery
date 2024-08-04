@@ -1,4 +1,4 @@
-import React, {memo} from "react";
+import {memo} from "react";
 import {Navigate} from "react-router-dom";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
@@ -20,9 +20,6 @@ const PrivatesRoutes = ({element, user, getUser}) => {
   }
 };
 
-PrivatesRoutes.defaultProps = {
-  element: {},
-};
 PrivatesRoutes.propsTypes = {
   element: PropTypes.element,
 };

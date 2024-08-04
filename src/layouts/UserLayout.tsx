@@ -1,3 +1,4 @@
+import {ReactNode} from "react";
 import {Navigate, Route, Routes} from "react-router-dom";
 import {userDashBoardRoutes} from "../routes/MenuLists/userDashBoardRoutes";
 import PrivatesRoutes from "../routes/PrivatesRoutes";
@@ -9,7 +10,7 @@ import ViewComplaints from "../pages/User/ViewComplaints";
 import Feedback from "../pages/User/Feedback";
 import {LayoutContainer, SectionWrapper} from "./Layout";
 
-const UserLayout = () => {
+const UserLayout = (): ReactNode => {
   return (
     <PrivatesRoutes
       element={
@@ -17,11 +18,11 @@ const UserLayout = () => {
           <Header routes={userDashBoardRoutes} isUser={true} />
           <SectionWrapper>
             <Routes>
-              <Route exact path='dashboard' element={<UserDashboard />} />
-              <Route exact path='chat' element={<Chat />} />
-              <Route exact path='register-complaints' element={<RegisterComplaints />} />
-              <Route exact path='view-complaints' element={<ViewComplaints />} />
-              <Route exact path='feedback' element={<Feedback />} />
+              <Route path='dashboard' element={<UserDashboard />} />
+              <Route path='chat' element={<Chat />} />
+              <Route path='register-complaints' element={<RegisterComplaints />} />
+              <Route path='view-complaints' element={<ViewComplaints />} />
+              <Route path='feedback' element={<Feedback />} />
               <Route path='*' element={<Navigate to='dashboard' />} />
             </Routes>
           </SectionWrapper>
