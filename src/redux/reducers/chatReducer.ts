@@ -1,13 +1,31 @@
+import {Socket} from "socket.io-client";
+import {User} from "../actions/authActions";
 import {ChatActionTypes} from "../actions/actionTypes";
 import {ChatActions} from "../actions/chatActions";
 
+type TMessage = {
+  _id: string;
+  message: string;
+  sender: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};
+export interface IConversation {
+  members: User[];
+  messages: TMessage[];
+  _id: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
 export interface IChatState {
   isLoading: boolean;
-  socket: object | undefined;
+  socket: Socket | undefined;
   data: {
-    contacts: [];
-    conversations: [];
-    notifications: [];
+    contacts: User[];
+    conversations: IConversation[];
+    notifications: string[];
     selectedConversationId: string | undefined;
   };
   resError: string | undefined;

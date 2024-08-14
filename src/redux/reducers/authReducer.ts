@@ -3,7 +3,7 @@ import {AuthActions, User} from "../actions/authActions";
 
 export interface IAuthState {
   isAuthenticated: boolean;
-  user: User | null;
+  user: User;
   isLoading: boolean;
   resError: string | undefined;
   resSuccess: string | undefined;

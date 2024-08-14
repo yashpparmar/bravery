@@ -42,7 +42,11 @@ const Login: FC<PropsFromRedux> = ({auth, login}) => {
       setToast(true);
       navigate("/user/dashboard");
     } else {
-      setAlert({show: true, message: auth.resError || result.data.message, variant: "danger"});
+      setAlert({
+        show: true,
+        variant: "danger",
+        message: auth?.resError || result?.data?.message,
+      });
       reset();
     }
   };

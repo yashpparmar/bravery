@@ -1,13 +1,16 @@
+import {Socket} from "socket.io-client";
+import {IConversation} from "../reducers/chatReducer";
 import {ChatActionTypes} from "./actionTypes";
+import {User} from "./authActions";
 
 /**
  * @desc Set Socket
  */
 interface ISocketAction {
   type: ChatActionTypes.SET_SOCKET;
-  payload: object;
+  payload: Socket;
 }
-export const setSocket = (payload: object): ISocketAction => {
+export const setSocket = (payload: Socket): ISocketAction => {
   return {
     type: ChatActionTypes.SET_SOCKET,
     payload,
@@ -19,9 +22,9 @@ export const setSocket = (payload: object): ISocketAction => {
  */
 interface IContactsAction {
   type: ChatActionTypes.SET_CONTACTS;
-  payload: [];
+  payload: User[];
 }
-export const setContacts = (payload: []): IContactsAction => {
+export const setContacts = (payload: User[]): IContactsAction => {
   return {
     type: ChatActionTypes.SET_CONTACTS,
     payload,
@@ -33,9 +36,9 @@ export const setContacts = (payload: []): IContactsAction => {
  */
 interface IConversationsAction {
   type: ChatActionTypes.SET_CONVERSATIONS;
-  payload: [];
+  payload: IConversation[];
 }
-export const setConversations = (payload: []): IConversationsAction => {
+export const setConversations = (payload: IConversation[]): IConversationsAction => {
   return {
     type: ChatActionTypes.SET_CONVERSATIONS,
     payload,
@@ -47,9 +50,9 @@ export const setConversations = (payload: []): IConversationsAction => {
  */
 interface INotificationsAction {
   type: ChatActionTypes.SET_NOTIFICATIONS;
-  payload: [];
+  payload: string[];
 }
-export const setNotifications = (payload: []): INotificationsAction => {
+export const setNotifications = (payload: string[]): INotificationsAction => {
   return {
     type: ChatActionTypes.SET_NOTIFICATIONS,
     payload,

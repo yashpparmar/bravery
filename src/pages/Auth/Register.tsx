@@ -8,7 +8,6 @@ import {emailRegEx} from "../../common/common";
 import {clearAuthResponse, setAuthResponseSuccess} from "../../redux/actions/authActions";
 import AlertBox from "../../components/AlertBox/AlertBox";
 import "./Register.scss";
-import {hasUncaughtExceptionCaptureCallback} from "process";
 
 enum GenderEnum {
   male = "male",
@@ -84,13 +83,13 @@ const Register: FC<PropsFromRedux> = ({registerServices, clearAuthResponse}) => 
     if (result?.status === 200) {
       setAlert({
         show: true,
-        message: "User registered successfully",
         variant: "success",
+        message: "User registered successfully",
       });
       setAvatarPreview(null);
       reset();
     } else {
-      setAlert({show: true, message: result, variant: "danger"});
+      setAlert({show: true, variant: "danger", message: result});
       // reset();
     }
   };

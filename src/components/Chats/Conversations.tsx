@@ -1,8 +1,10 @@
+import {FC} from "react";
 import {ListGroup} from "react-bootstrap";
-import {connect} from "react-redux";
+import {connect, ConnectedProps} from "react-redux";
 import {setSelectedConversationsId} from "../../redux/actions/chatActions";
+import {AppState} from "../../redux/reducers";
 
-const Conversations = ({chat, setSelectedConversationsId}) => {
+const Conversations: FC<PropsFromRedux> = ({chat, setSelectedConversationsId}) => {
   const {conversations, notifications, selectedConversationId} = chat;
   return (
     <ListGroup variant='flush'>
@@ -19,9 +21,7 @@ const Conversations = ({chat, setSelectedConversationsId}) => {
               <span>
                 <i className='fa-solid fa-comment-dots ms-2 text-primary'></i>
               </span>
-            ) : (
-              ""
-            )}
+            ) : null}
           </ListGroup.Item>
         ))
       ) : (
@@ -31,7 +31,10 @@ const Conversations = ({chat, setSelectedConversationsId}) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppState) => ({
   chat: state.chat.data,
 });
-export default connect(mapStateToProps, {setSelectedConversationsId})(Conversations);
+const connector = connect(mapStateToProps, {setSelectedConversationsId});
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(Conversations);

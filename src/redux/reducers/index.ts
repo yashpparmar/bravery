@@ -1,6 +1,6 @@
 import {combineReducers} from "redux";
-import {authReducer, IAuthState} from "./authReducer";
-import {chatReducer, IChatState} from "./chatReducer";
+import {authReducer} from "./authReducer";
+import {chatReducer} from "./chatReducer";
 
 const appReducer = combineReducers({
   auth: authReducer,

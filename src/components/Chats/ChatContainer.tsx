@@ -1,22 +1,24 @@
-import {useCallback, useRef} from "react";
+import {FC, FormEvent, useCallback, useRef} from "react";
 import {Button, Form, InputGroup} from "react-bootstrap";
-import {connect} from "react-redux";
+import {connect, ConnectedProps} from "react-redux";
+import {AppState} from "../../redux/reducers";
 import {sendMessage} from "../../services/chatServices";
 
-const ChatContainer = ({user, chat, sendMessage}) => {
+const ChatContainer: FC<PropsFromRedux> = ({user, chat, sendMessage}) => {
   const selectedConversation = chat.conversations.find(
-    (conversation) => conversation._id === chat.selectedConversationId,
+    (conversation: any) => conversation._id === chat.selectedConversationId,
   );
-  const inputRef = useRef();
-  const setRef = useCallback((node) => {
-    if (node) node.scrollIntoView({smooth: true});
+  const inputRef = useRef<HTMLInputElement>(null);
+  const setRef = useCallback((node: HTMLDivElement) => {
+    if (node) node.scrollIntoView({behavior: "smooth"});
   }, []);
 
-  function handleSubmit(e) {
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    sendMessage(inputRef.current.value, chat.selectedConversationId);
-    inputRef.current.value = "";
+    if (inputRef.current) {
+      sendMessage(inputRef.current.value, chat.selectedConversationId);
+      inputRef.current.value = "";
+    }
   }
 
   return (
@@ -79,8 +81,11 @@ const ChatContainer = ({user, chat, sendMessage}) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppState) => ({
   user: state.auth.user,
   chat: state.chat.data,
 });
-export default connect(mapStateToProps, {sendMessage})(ChatContainer);
+const connector = connect(mapStateToProps, {sendMessage});
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(ChatContainer);

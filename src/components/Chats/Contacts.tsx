@@ -1,8 +1,10 @@
+import {FC} from "react";
 import {ListGroup} from "react-bootstrap";
-import {connect} from "react-redux";
+import {connect, ConnectedProps} from "react-redux";
+import {AppState} from "../../redux/reducers";
 import {addToChat} from "../../services/chatServices";
 
-const Contacts = ({chat, addToChat}) => {
+const Contacts: FC<PropsFromRedux> = ({chat, addToChat}) => {
   const {contacts} = chat;
   return (
     <ListGroup variant='flush'>
@@ -18,8 +20,10 @@ const Contacts = ({chat, addToChat}) => {
     </ListGroup>
   );
 };
-
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppState) => ({
   chat: state.chat.data,
 });
-export default connect(mapStateToProps, {addToChat})(Contacts);
+const connector = connect(mapStateToProps, {addToChat});
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(Contacts);
