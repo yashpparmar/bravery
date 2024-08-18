@@ -1,4 +1,4 @@
-const getInitials = (name) => {
+const getInitials = (name: string): string | undefined => {
   let initials;
   const nameSplit = name.split(" ");
   const nameLength = nameSplit.length;
@@ -12,7 +12,7 @@ const getInitials = (name) => {
   return initials.toUpperCase();
 };
 
-export const getRandomColor = () => {
+export const getRandomColor = (): string => {
   var letters = "0123456789ABCDEF";
   var color = "#";
   for (var i = 0; i < 6; i++) {
@@ -22,19 +22,26 @@ export const getRandomColor = () => {
   return color;
 };
 
-const urlToObject = async (imageFile, url) => {
+type TUrlToObject = (imageFile: File | null, url: string) => Promise<File>;
+const urlToObject: TUrlToObject = async (imageFile, url) => {
   const response = await fetch(url);
   const blob = await response.blob();
   imageFile = new File([blob], "avatar", {type: blob.type});
   return imageFile;
 };
 
-export const createImageFromInitials = async (size, name, color) => {
+interface ICreateImageFromInitials {
+  (size: number, name: string | null | undefined, color: string): Promise<File | undefined>;
+}
+export const createImageFromInitials: ICreateImageFromInitials = async (size, name, color) => {
   if (name == null) return;
-  name = getInitials(name);
+  const initials = getInitials(name);
+  if (!initials) return;
 
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
+  if (!context) return;
+
   canvas.width = canvas.height = size;
 
   context.fillStyle = "#ffffff";
@@ -47,9 +54,9 @@ export const createImageFromInitials = async (size, name, color) => {
   context.textBaseline = "middle";
   context.textAlign = "center";
   context.font = `${size / 2}px Roboto`;
-  context.fillText(name, size / 2, size / 2);
+  context.fillText(initials, size / 2, size / 2);
 
-  let url = canvas.toDataURL();
-  let imageFile = null;
+  const url = canvas.toDataURL();
+  const imageFile = null;
   return await urlToObject(imageFile, url);
 };
