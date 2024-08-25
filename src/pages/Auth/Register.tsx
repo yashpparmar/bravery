@@ -80,7 +80,7 @@ const Register: FC<PropsFromRedux> = ({registerServices, clearAuthResponse}) => 
       formData["avatar"] = formData.avatar[0];
     }
     const result = await registerServices(formData);
-    if (result?.status === 200) {
+    if (typeof result !== "string" && result?.status === 200) {
       setAlert({
         show: true,
         variant: "success",
@@ -89,7 +89,8 @@ const Register: FC<PropsFromRedux> = ({registerServices, clearAuthResponse}) => 
       setAvatarPreview(null);
       reset();
     } else {
-      setAlert({show: true, variant: "danger", message: result});
+      console.log("result", result);
+      setAlert({show: true, variant: "danger", message: "Something went wrong! Try again!"});
       // reset();
     }
   };
