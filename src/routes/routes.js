@@ -2,7 +2,7 @@
 // import Register from "../pages/Auth/Register";
 // import Login from "../pages/Auth/Login";
 // import UserDashboard from "../pages/User/UserDashboard";
-// import PrivatesRoutes from "./PrivatesRoutes";
+// import PrivateRoute from "./PrivateRoute";
 // const routes = [
 //   {
 //     path: "/",
@@ -18,7 +18,7 @@
 //   },
 //   {
 //     path: "/user/dashboard",
-//     element: <PrivatesRoutes component={<UserDashboard />} />,
+//     element: <PrivateRoute component={<UserDashboard />} />,
 //   },
 // ];
 
