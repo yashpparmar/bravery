@@ -19,7 +19,6 @@ import {axiosInstance} from "./apiInteraction";
 import {endPoints} from "./apiEndPoints";
 import {LoginFormValues} from "../pages/Auth/Login";
 import {RegisterFormValues} from "../pages/Auth/Register";
-import {AnyARecord} from "dns";
 
 interface ICustomJwtPayload extends JwtPayload {
   id?: string;
@@ -64,12 +63,14 @@ export const register = (formData: RegisterFormValues) => async (dispatch: Dispa
       }
       return response;
     }
-  } catch (error) {
-    dispatchAuthError(
-      getAPIResponseError(error) || "Unable to Register, please try again",
-      dispatch,
-    );
-    return getAPIResponseError(error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      dispatchAuthError(
+        getAPIResponseError(error) || "Unable to Register, please try again",
+        dispatch,
+      );
+      return getAPIResponseError(error);
+    }
   } finally {
     dispatch(setAuthLoader(false));
   }
@@ -94,8 +95,13 @@ export const login = (formData: LoginFormValues) => async (dispatch: Dispatch) =
       }
       return data;
     }
-  } catch (error) {
-    dispatchAuthError(getAPIResponseError(error) || "Unable to login, please try again", dispatch);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      dispatchAuthError(
+        getAPIResponseError(error) || "Unable to login, please try again",
+        dispatch,
+      );
+    }
   } finally {
     dispatch(setAuthLoader(false));
   }
@@ -122,8 +128,11 @@ export const getUser = () => async (dispatch: Dispatch) => {
         window.location.assign("/auth/login");
       }
       toast.error(error.message || "Something went wrong!");
+      dispatchAuthError(
+        getAPIResponseError(error) || "Unable to login, please try again",
+        dispatch,
+      );
     }
-    dispatchAuthError(getAPIResponseError(error) || "Unable to login, please try again", dispatch);
   } finally {
     dispatch(setAuthLoader(false));
   }
