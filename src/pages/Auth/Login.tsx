@@ -43,7 +43,7 @@ const Login: FC<PropsFromRedux> = ({auth, login}) => {
       const userId = getUniqueId();
 
       // Uzera user identify script
-      uzera("identify", {
+      window.uzera("identify", {
         id: userId, // Replace with your unique user ID (required)
         userData: {
           // recommended properties for personalization (optional)
