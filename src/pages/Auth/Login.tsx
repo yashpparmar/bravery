@@ -5,7 +5,7 @@ import {SubmitHandler, useForm} from "react-hook-form";
 import {connect, ConnectedProps} from "react-redux";
 import {AppState} from "../../redux/reducers";
 import {login} from "../../services/authServices";
-import {emailRegEx} from "../../common/common";
+import {emailRegEx, getUniqueId} from "../../common/common";
 import AlertBox from "../../components/AlertBox/AlertBox";
 import "./Login.scss";
 
@@ -40,6 +40,25 @@ const Login: FC<PropsFromRedux> = ({auth, login}) => {
     if (result && result.code === 200) {
       reset();
       setToast(true);
+      const userId = getUniqueId();
+
+      // Uzera user identify script
+      uzera("identify", {
+        id: userId, // Replace with your unique user ID (required)
+        userData: {
+          // recommended properties for personalization (optional)
+          name: auth.user.profile.name, // current user's full name
+          email: auth.user.email, // Current user's email
+          join_date: "2023-05-17T08:42:25.253Z", // ISO format (ie.2023-05-17T08:42:25.253Z) of user signup date
+          plan: "Startup", // Current user's plan name
+          purchased_at: "2023-05-17T08:42:25.253Z", // ISO format (ie.2023-05-17T08:42:25.253Z) of account purchase date (leave null if empty)
+          role: "Manager", // Current user's role or permissions
+          account_id: "1234XYZ", // Current user's account ID
+          company_name: "Acme Corp", // Current user's company name
+          renewal_date: "2023-05-17T08:42:25.253Z", // ISO format (ie.2023-05-17T08:42:25.253Z) to remind users for renewal etc.
+        },
+      });
+      
       navigate("/user/dashboard");
     } else {
       setAlert({
