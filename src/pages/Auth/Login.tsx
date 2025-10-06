@@ -14,6 +14,10 @@ export type LoginFormValues = {
   password: string;
 };
 
+export type window = {
+  uzera: any
+}
+
 const Login: FC<PropsFromRedux> = ({auth, login}) => {
   const navigate = useNavigate();
   const {
@@ -43,7 +47,7 @@ const Login: FC<PropsFromRedux> = ({auth, login}) => {
       const userId = getUniqueId();
 
       // Uzera user identify script
-      window.uzera("identify", {
+      (window as any).uzera("identify", {
         id: userId, // Replace with your unique user ID (required)
         userData: {
           // recommended properties for personalization (optional)
